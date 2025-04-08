@@ -23,7 +23,7 @@ const App = () => {
   return (
     <ThemeProvider theme={Theme}>
       <CssBaseline />
-      <BrowserRouter>
+      <BrowserRouter basename="/novashop-ecommerce">
         <AppContent loading={loading} setLoading={setLoading} />
       </BrowserRouter>
     </ThemeProvider>
