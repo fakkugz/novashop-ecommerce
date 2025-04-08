@@ -100,5 +100,6 @@ Este proyecto es de código abierto y se distribuye bajo la [Licencia MIT](LICEN
 
 Si tenés dudas, sugerencias o simplemente querés saludar:
 
-- GitHub: [@tu-usuario](https://github.com/tu-usuario)  
-- Email: tu.email@ejemplo.com
+- GitHub: [@fakkugz](https://github.com/fakkugz)  
+- Email: fakku5@live.com.ar
+- LinkedIn: [Facundo González](https://www.linkedin.com/in/facundoegonzalez/)
