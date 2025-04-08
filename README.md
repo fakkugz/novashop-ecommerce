@@ -91,7 +91,8 @@ Este proyecto es de código abierto y se distribuye bajo la [Licencia MIT](LICEN
 
 ## 🌐 Demo
 
-Próximamente...
+[https://fakkugz.github.io/novashop-ecommerce/](https://fakkugz.github.io/novashop-ecommerce/)
+
 
 ---
 
