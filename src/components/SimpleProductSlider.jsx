@@ -112,7 +112,13 @@ const SimpleProductSlider = ({ products, categories }) => {
                                     >
                                         {product.title}
                                     </Typography>
-                                    <Typography variant="h6" sx={{ color: "black", textAlign: "center", mt: 1 }}>
+                                    <Typography
+                                        variant="h6"
+                                        sx={{
+                                            color: "black",
+                                            textAlign: "center",
+                                            mt: 1,
+                                            fontWeight: '400' }}>
                                         ${product.price}
                                     </Typography>
                                 </CardContent>
