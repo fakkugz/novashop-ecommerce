@@ -71,11 +71,11 @@ const SimpleProductSlider = ({ products, categories }) => {
                             <Card
                                 sx={{
                                     width: {
-                                        xs: 120,
+                                        xs: 100,
                                         sm: 160,
                                         md: 200,
                                     },
-                                    height: 260,
+                                    height: {xs: 215, sm: 260},
                                     display: "flex",
                                     flexDirection: "column",
                                     alignItems: "center",
@@ -93,12 +93,12 @@ const SimpleProductSlider = ({ products, categories }) => {
                                     alt={product.name}
                                     sx={{
                                         width: "100%",
-                                        height: 140,
+                                        minHeight: {xs: 120, sm: 150},
                                         objectFit: "contain",
                                         borderRadius: "6px 6px 0 0",
                                     }}
                                 />
-                                <CardContent sx={{ p: 1 }}>
+                                <CardContent sx={{ p: {xs: 0, sm: 1}}}>
                                     <Typography
                                         variant="body1"
                                         sx={{
@@ -107,7 +107,11 @@ const SimpleProductSlider = ({ products, categories }) => {
                                             WebkitLineClamp: 2,
                                             textOverflow: 'ellipsis',
                                             overflow: "hidden",
-                                            height: "3em"
+                                            height: "3em",
+                                            width: {xs: '7em', sm: '11em'},
+                                            fontSize: {xs: '13px', sm: '16px'},
+                                            textAlign: 'center',
+                                            p: 0
                                         }}
                                     >
                                         {product.title}

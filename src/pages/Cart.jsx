@@ -104,7 +104,7 @@ export default function Cart() {
                                         flexDirection: { xs: 'column', sm: 'row' },
                                         alignItems: { xs: 'flex-start', sm: 'center' },
                                         justifyContent: { xs: 'flex-start', sm: 'space-between' },
-                                        gap: { xs: 0, sm: 2 }
+                                        gap: { xs: 1, sm: 2 }
                                     }}
                                 >
                                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>

@@ -90,13 +90,14 @@ const Shop = ({ loading }) => {
     }
 
     return (
-        <Box sx={{ p: 6 }}>
+        <Box sx={{ p: {xs: 3, sm: 6} }}>
             {/* Botón para abrir Drawer en mobile */}
             <Box sx={{ display: { xs: 'block', md: 'none' }, mb: 2 }}>
                 <Button
                     variant="contained"
                     startIcon={<MenuIcon />}
                     onClick={handleDrawerToggle}
+                    sx={{ backgroundColor: 'secondary.light' }}
                 >
                     Filters
                 </Button>
@@ -136,7 +137,6 @@ const Shop = ({ loading }) => {
                                         category={i.category}
                                         image={i.image}
                                         rate={i.rating.rate}
-                                        count={i.rating.count}
                                         onAddToCartSuccess={handleAddToCartSuccess}
                                     />
                                 </Grid>

@@ -56,7 +56,7 @@ const NavBar = () => {
   return (
     <AppBar position="sticky" sx={{ zIndex: 2, boxShadow: 1 }}>
       <Container maxWidth="xl">
-        <Toolbar disableGutters sx={{ px: 3, display: 'flex', justifyContent: 'space-between' }}>
+        <Toolbar disableGutters sx={{ px: {xs: 0, sm: 3}, display: 'flex', justifyContent: 'space-between' }}>
           <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
             <Link to='/home' style={{ textDecoration: 'none', color: 'inherit', display: 'flex' }}>
               <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, alignItems: 'center' }}>
@@ -112,7 +112,7 @@ const NavBar = () => {
                   <Link to={`/${page.toLowerCase()}`}>
                     <Typography
                       sx={{
-                        textAlign: 'center', minWidth: '100px', padding: '8px 16px', textDecoration: 'none', color: 'black',
+                        textAlign: 'center', minWidth: '120px', padding: '8px 16px', textDecoration: 'none', color: 'black',
                         '&:hover': {
                           display: 'inline-block',
                           backgroundColor: 'primary.main',
@@ -227,6 +227,14 @@ const NavBar = () => {
                 }}
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
+                slotProps={{
+                  paper: {
+                    sx: {
+                      width: '120px',
+                      maxWidth: '150px',
+                    },
+                  },
+                }}
               >
                 {settings.map(({ label, path, action }) => (
                   <MenuItem
@@ -241,7 +249,7 @@ const NavBar = () => {
                       sx={{
                         textAlign: "center",
                         padding: "8px 16px",
-                        minWidth: "85px",
+                        minWidth: "100%",
                         "&:hover": {
                           backgroundColor: "primary.main",
                           color: "white",

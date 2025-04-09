@@ -64,6 +64,10 @@ const Categories = () => {
               mt: index === 0 ? 0 : 3,
               maxWidth: "1200px",
               mx: "auto",
+              height: {
+                xs: categoryProducts.length > 0 ? '425px' : '120px',
+                sm: categoryProducts.length > 0 ? '540px' : '130px',
+              }
             }}
           >
             <Box sx={{ display: 'flex', justifyContent: 'space-between', px: 1, mb: -4 }}>
@@ -89,11 +93,12 @@ const Categories = () => {
                   {categoryProducts.map((product) => (
                     <Box
                       key={product.id}
-                      sx={{ px: 1, display: "flex", justifyContent: "center" }}
+                      sx={{ transform: {xs: "scale(0.75)", md: "scale(0.8)"} }}
                     >
-                      <Box sx={{ transform: {xs: "scale(0.75)", md: "scale(0.85)"} }}>
-                        <ItemCard {...product} />
-                      </Box>
+                        <ItemCard
+                          {...product}
+                          rate={product.rating?.rate}
+                          sx={{ width: {xs: '180px', sm: '220px'} }}/>
                     </Box>
                   ))}
                 </Slider>

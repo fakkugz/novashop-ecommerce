@@ -85,11 +85,9 @@ const FiltersDrawer = () => {
                 backgroundColor: '#1b1b1b', 
                 color: 'white',
                 height: 'auto',
-                px: 2, py: 3,
+                p: {xs: 1, sm: 2},
                 borderRadius: '5px',
-                '@media (max-width: 600px)': { 
-                    minHeight: 'auto',
-                },
+                minHeight: { xs: '100%', sm: 'auto' }
             }}
         >
             <Typography variant="h5" gutterBottom sx={{ ml: 1 }}>
@@ -287,9 +285,8 @@ const FiltersDrawer = () => {
                         flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        width: '75%',
-                        padding: 2,
-                        paddingLeft: 4,
+                        width: '85%',
+                        paddingLeft: 5,
                         backgroundColor: '#1b1b1b' 
                     }}
                 >
@@ -311,7 +308,7 @@ const FiltersDrawer = () => {
                     variant="outlined"
                     color="white"
                     onClick={handleResetFilters}
-                    sx={{ mt: 3, width: '85%',
+                    sx={{ mt: 3, mb: 3, width: '85%',
                         '&:hover': {
                             borderColor: 'primary.main', 
                         },

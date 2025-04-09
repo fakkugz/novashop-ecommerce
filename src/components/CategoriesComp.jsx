@@ -100,7 +100,13 @@ const CategoriesComp = () => {
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: {xs: 0, md: 4} }}>
-                <Typography variant="h4" sx={{ color: "white", textAlign: "center", fontFamily: 'Montserrat, sans-serif' }}>
+                <Typography
+                    variant="h4"
+                    sx={{
+                        color: "white",
+                        textAlign: "center",
+                        fontFamily: 'Montserrat, sans-serif',
+                        fontSize: {xs: '25px', sm: '35px'} }}>
                     CATEGORIES
                 </Typography>
                 <Grid container spacing={2} rowSpacing={{ xs: 2, md: 8 }} sx={{ mt: 4, width: '70%', display: 'flex' }}>
@@ -148,7 +154,7 @@ const CategoriesComp = () => {
                                         }}
                                     />
                                 </Box>
-                                <CardContent sx={{ position: "absolute", bottom: { xs:-10, md: 0 }, left: 0, bgcolor: "rgba(13, 63, 112, 0.7)", width: "100%" }}>
+                                <CardContent sx={{ position: "absolute", bottom: { xs:-15, md: 0 }, left: 0, bgcolor: "rgba(13, 63, 112, 0.7)", width: "100%" }}>
                                     <Typography variant="h6" sx={{ color: "white", textAlign: "center" }}>
                                         {category.charAt(0).toUpperCase() + category.slice(1)}
                                     </Typography>

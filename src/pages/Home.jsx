@@ -37,7 +37,7 @@ const Home = () => {
 
     return (
         <Box className="home-container" sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <Box className="slider-container" sx={{ width: "100%", mb: -12 }}>
+            <Box className="slider-container" sx={{ width: {xs: "112%", sm: '100%' }, mb: -12 }}>
                 <Slider {...mainSliderSettings}>
                     {slides.map(({ img, path }, index) => (
                         <Box key={index} className="slide">
@@ -54,9 +54,9 @@ const Home = () => {
                 variant="h5"
                 sx={{
                     color: "white",
-                    alignSelf: 'flex-start',
+                    alignSelf: {xs: 'center', sm: 'flex-start'},
                     fontFamily: 'Montserrat, sans-serif',
-                    pl: 10,
+                    pl: {xs: 0, sm: 10},
                     mt: 10,
                     mb: { xs: -8, md: -2 }
                 }}

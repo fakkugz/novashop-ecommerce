@@ -34,7 +34,7 @@ const ExpandMoreStyled = styled((props) => {
 }));
 
 export default function ItemCard({ id, title, price, description,
-  category, image, rate, count, onAddToCartSuccess, sx = {} }) {
+  category, image, rate, onAddToCartSuccess, sx = {} }) {
 
   const [expanded, setExpanded] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
@@ -79,7 +79,6 @@ export default function ItemCard({ id, title, price, description,
         category,
         image,
         rate,
-        count,
       };
       addToCart(newProduct);
       if (onAddToCartSuccess) {
@@ -129,7 +128,7 @@ export default function ItemCard({ id, title, price, description,
 
         <CardHeader
           title={title}
-          subheader={`${category} - Rate: ${rate}`}
+          subheader={`${category} - ${rate}`}
           sx={{
             '& .MuiCardHeader-title': {
               display: '-webkit-box',
@@ -138,7 +137,7 @@ export default function ItemCard({ id, title, price, description,
               WebkitBoxOrient: 'vertical',
               WebkitLineClamp: 2,
               maxWidth: '100%',
-              fontSize: '20px'
+              fontSize: {xs: '16px', sm: '20px'}
             },
             '& .MuiCardHeader-subheader': {
               display: '-webkit-box',
@@ -147,13 +146,14 @@ export default function ItemCard({ id, title, price, description,
               WebkitBoxOrient: 'vertical',
               WebkitLineClamp: 1,
               maxWidth: '100%',
+              fontSize: {xs: '11px', sm: '16px'}
             },
           }}
         />
 
-        <Box sx={{ m: 1 }}>
+        <Box sx={{ m: {xs: 0, sm: 1} }}>
           <CardContent>
-            <Typography variant="h4" align="center" sx={{ fontSize: '30px' }}>
+            <Typography variant="h4" align="center" sx={{ fontSize: {xs: '25px', sm: '30px'} }}>
               {`$ ${formatPrice(price)}`}
             </Typography>
           </CardContent>

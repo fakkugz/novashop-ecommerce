@@ -53,7 +53,10 @@ const History = () => {
                             padding: 2,
                             mt: index === 0 ? 0 : 3,
                             maxWidth: "1200px",
-                            height: validProducts.length > 0 ? '540px' : '130px',
+                            height: {
+                                xs: validProducts.length > 0 ? '425px' : '120px',
+                                sm: validProducts.length > 0 ? '540px' : '130px',
+                              },
                             mx: "auto",
                             transition: "height 0.5s ease-in-out",
                             overflow: "hidden",
@@ -69,13 +72,18 @@ const History = () => {
                                     {validProducts.map((product) => (
                                         <Box
                                             key={product.id}
-                                            sx={{ px: 1, display: "flex", justifyContent: "center" }}
+                                            sx={{ display: "flex", justifyContent: "center" }}
                                         >
                                             <Box
                                                 sx={{
-                                                    transform: { xs: "scale(0.75)", md: "scale(0.85)" }
+                                                    transform: { xs: "scale(0.8)", md: "scale(0.85)" }
                                                 }}>
-                                                <ItemCard {...product} sx={{ boxShadow: '3px 3px 3px rgba(0, 0, 0, 0.2)' }} />
+                                                <ItemCard
+                                                    {...product}
+                                                    rate={product.rating?.rate}
+                                                    sx={{ boxShadow: '3px 3px 3px rgba(0, 0, 0, 0.2)',
+                                                          width: {xs: '170px', sm: '220px'}
+                                                    }} />
                                             </Box>
                                         </Box>
                                     ))}

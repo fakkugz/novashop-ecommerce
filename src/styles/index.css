@@ -83,7 +83,7 @@ button:hover {
 
 /* SLIDER (global + Home) */
 .slick-dots {
-  bottom: 5px !important;
+  bottom: 10px !important;
 }
 
 .slick-dots li button:before {
@@ -134,7 +134,7 @@ button:hover {
   left: -9px;
 }
 .product-slider .slick-next {
-  right: 6px;
+  right: 7px;
 }
 
 /* Responsive */
@@ -165,6 +165,12 @@ button:hover {
   --sb-track-color: #1e2021;
   --sb-thumb-color: var(--color-secondary);
   --sb-size: 10px;
+}
+
+@media (max-width: 500px) {
+  .main-scroll-container {
+    --sb-size: 0px;
+  }
 }
 
 .main-scroll-container::-webkit-scrollbar {
