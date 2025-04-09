@@ -60,7 +60,7 @@ export default function ItemCard({ id, title, price, description,
           description,
           category,
           image,
-          rating: { rate, count }
+          rating: { rate }
         }]);
     } else {
       setOpenDialog(true);

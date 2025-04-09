@@ -2,6 +2,7 @@ import { Box, Card, CardMedia, CardContent, Typography, Grid, CircularProgress }
 import { useContext, useState, useEffect, useRef } from "react";
 import { ShopContext } from "../contexts/ShopContext";
 import { useNavigate } from "react-router-dom";
+import imgPlaceholder from '../assets/images/27002.jpg'
 
 const CategoriesComp = () => {
 
@@ -129,7 +130,7 @@ const CategoriesComp = () => {
                                 <Box sx={{ position: "relative", width: '100%', height: {xs:200, md: 400} }}>
                                     <CardMedia
                                         component="img"
-                                        image={categoryImagesState[category]?.current || "/images/placeholder.png"}
+                                        image={categoryImagesState[category]?.current || imgPlaceholder}
                                         alt={category}
                                         sx={{
                                             position: "absolute",
@@ -142,7 +143,7 @@ const CategoriesComp = () => {
                                     />
                                     <CardMedia
                                         component="img"
-                                        image={categoryImagesState[category]?.next || "/images/placeholder.png"}
+                                        image={categoryImagesState[category]?.next || imgPlaceholder}
                                         alt={category}
                                         sx={{
                                             position: "absolute",

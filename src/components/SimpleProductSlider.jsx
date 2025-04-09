@@ -24,6 +24,11 @@ const SimpleProductSlider = ({ products, categories }) => {
         arrows: true,
         slidesToShow: 5,
         slidesToScroll: 1,
+        beforeChange: () => {
+            if (document.activeElement instanceof HTMLElement) {
+              document.activeElement.blur();
+            }
+          },
         responsive: [
           {
             breakpoint: 1200,
