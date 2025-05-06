@@ -7,16 +7,17 @@ import CategoriesComp from "../components/CategoriesComp";
 import SimpleProductSlider from "../components/SimpleProductSlider";
 import { ShopContext } from "../contexts/ShopContext";
 import { Link } from "react-router-dom";
-import img1 from '../assets/images/1.png';
-import img2 from '../assets/images/2.png';
-import img3 from '../assets/images/3.png';
-import img4 from '../assets/images/4.png';
+import img1 from '../assets/images/1.webp';
+import img2 from '../assets/images/2.webp';
+import img3 from '../assets/images/3.webp';
+import img4 from '../assets/images/4.webp';
 
 const Home = () => {
 
     const { allProducts } = useContext(ShopContext)
 
     const mainSliderSettings = {
+        lazyLoad: "ondemand",
         dots: false,
         infinite: true,
         speed: 1000,

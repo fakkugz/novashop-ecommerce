@@ -1,5 +1,5 @@
 import { createTheme } from '@mui/material/styles';
-import background from '../assets/images/codioful-713087444.jpg';
+import background from '../assets/images/codioful-713087444.webp';
 
 const Theme = createTheme({
   palette: {

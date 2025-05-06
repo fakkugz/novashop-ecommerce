@@ -60,7 +60,7 @@ const NavBar = () => {
           <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
             <Link to='/home' style={{ textDecoration: 'none', color: 'inherit', display: 'flex' }}>
               <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, alignItems: 'center' }}>
-                <img src={NLogo} alt="NovaShop Logo" style={{ height: '35px' }} />
+                <img src={NLogo} alt="NovaShop Logo" style={{ height: '35px', width: 'auto', display: 'block' }} />
               </Box>
 
               <Typography

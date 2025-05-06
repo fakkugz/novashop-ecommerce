@@ -2,7 +2,7 @@ import { Box, Card, CardMedia, CardContent, Typography, Grid, CircularProgress }
 import { useContext, useState, useEffect, useRef } from "react";
 import { ShopContext } from "../contexts/ShopContext";
 import { useNavigate } from "react-router-dom";
-import imgPlaceholder from '../assets/images/27002.jpg'
+import imgPlaceholder from '../assets/images/27002.webp'
 
 const CategoriesComp = () => {
 
@@ -132,6 +132,7 @@ const CategoriesComp = () => {
                                         component="img"
                                         image={categoryImagesState[category]?.current || imgPlaceholder}
                                         alt={category}
+                                        loading="lazy"
                                         sx={{
                                             position: "absolute",
                                             width: "100%",

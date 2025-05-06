@@ -16,6 +16,7 @@ const SimpleProductSlider = ({ products, categories }) => {
 
 
     const productSliderSettings = {
+        lazyLoad: "ondemand",
         dots: false,
         infinite: true,
         speed: 1000,
@@ -96,8 +97,10 @@ const SimpleProductSlider = ({ products, categories }) => {
                                     component="img"
                                     image={product.image}
                                     alt={product.name}
+                                    loading="lazy"
                                     sx={{
                                         width: "100%",
+                                        height: 150,
                                         minHeight: {xs: 120, sm: 150},
                                         objectFit: "contain",
                                         borderRadius: "6px 6px 0 0",
@@ -113,7 +116,7 @@ const SimpleProductSlider = ({ products, categories }) => {
                                             textOverflow: 'ellipsis',
                                             overflow: "hidden",
                                             height: "3em",
-                                            width: {xs: '7em', sm: '11em'},
+                                            width: {xs: '7em', sm: '9em', md: '10em', lg: '11em'},
                                             fontSize: {xs: '13px', sm: '16px'},
                                             textAlign: 'center',
                                             p: 0
