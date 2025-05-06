@@ -11,6 +11,9 @@ const Theme = createTheme({
       main: '#FF4511',
     },
   },
+  typography: {
+    fontFamily: '"Montserrat", "Poppins", "Roboto", sans-serif',
+  },
   components: {
     MuiCssBaseline: {
       styleOverrides: {

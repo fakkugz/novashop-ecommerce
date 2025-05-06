@@ -114,7 +114,6 @@ const Shop = ({ loading }) => {
                     
                     <Grid container spacing={2} key={activeFilters.join('-')} >
                         {loading ? (
-                                // Si está cargando, mostramos el skeleton en la misma estructura
                                 [...Array(6)].map((_, index) => (
                                     <Grid size={{ xs: 6, sm: 4 }} key={index}>
                                         <Box sx={{ padding: 2 }}>

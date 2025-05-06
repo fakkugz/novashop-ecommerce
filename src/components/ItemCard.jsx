@@ -8,7 +8,6 @@ import { ShopContext } from '../contexts/ShopContext';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
 
-// Renombramos ExpandMoreStyled para evitar conflicto con ExpandMoreIcon
 const ExpandMoreStyled = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;

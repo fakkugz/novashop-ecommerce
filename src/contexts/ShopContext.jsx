@@ -117,18 +117,14 @@ export const ShopProvider = ({children}) => {
 
     const updateLastPurchased = () => {
         setLastPurchased((prev) => {
-            if (cart.length === 0) return prev; // Evita actualizar si el carrito está vacío
-    
-            // Filtrar productos que ya estaban en `lastPurchased` para evitar duplicados
+            if (cart.length === 0) return prev;
             const filteredPrev = prev.filter(item => !cart.some(p => p.id === item.id));
-    
-            // Agregar los nuevos productos al principio
-            const updatedList = [...cart, ...filteredPrev].slice(0, 10); // Máximo 10 productos
+            const updatedList = [...cart, ...filteredPrev].slice(0, 10);
     
             localStorage.setItem("lastPurchased", JSON.stringify(updatedList)); 
             return updatedList;
         });
-        setCart([]); // Vaciar carrito
+        setCart([]);
     };
     
 

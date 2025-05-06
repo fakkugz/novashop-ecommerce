@@ -85,13 +85,13 @@ const CategoriesComp = () => {
 
     if (allProducts.length === 0) {
         return (
-            <Box sx={{ 
-                display: 'flex', 
-                justifyContent: 'center', 
-                alignItems: 'center', 
-                width: '90vh', 
+            <Box sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '90vh',
                 flexDirection: 'column',
-                backgroundColor: 'transparent', 
+                backgroundColor: 'transparent',
                 mt: '500px'
             }}>
                 <CircularProgress sx={{ color: "#FF5733" }} />
@@ -100,72 +100,83 @@ const CategoriesComp = () => {
     }
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: {xs: 0, md: 4} }}>
-                <Typography
-                    variant="h4"
-                    sx={{
-                        color: "white",
-                        textAlign: "center",
-                        fontFamily: 'Montserrat, sans-serif',
-                        fontSize: {xs: '25px', sm: '35px'} }}>
-                    CATEGORIES
-                </Typography>
-                <Grid container spacing={2} rowSpacing={{ xs: 2, md: 8 }} sx={{ mt: 4, width: '70%', display: 'flex' }}>
-                    {categories.map(category => (
-                        <Grid size={{ xs: 12, sm: 6 }} key={category} sx={{ display: 'flex', justifyContent: 'center' }}>
-                            <Card 
-                                onClick={() => handleCategoryClick(category)}
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: { xs: 0, md: 4 } }}>
+            <Typography
+                variant="h4"
+                sx={{
+                    color: "white",
+                    textAlign: "center",
+                    fontFamily: 'Montserrat, sans-serif',
+                    fontSize: { xs: '25px', sm: '35px' }
+                }}>
+                CATEGORIES
+            </Typography>
+            <Grid container spacing={2} rowSpacing={{ xs: 2, md: 8 }} sx={{ mt: 4, width: '70%', display: 'flex' }}>
+                {categories.map(category => (
+                    <Grid size={{ xs: 12, sm: 6 }} key={category} sx={{ display: 'flex', justifyContent: 'center' }}>
+                        <Card
+                            onClick={() => handleCategoryClick(category)}
+                            sx={{
+                                p: 2,
+                                width: 300,
+                                cursor: "pointer",
+                                position: "relative",
+                                overflow: "hidden",
+                                borderRadius: "10px",
+                                '&:hover': { transform: 'scale(1.05)' },
+                                transition: 'transform 0.3s ease'
+                            }}
+                        >
+                            <Box
                                 sx={{
-                                    p: 2,
-                                    width: 300,
-                                    height: {xs: 200, md: 400},
-                                    cursor: "pointer",
                                     position: "relative",
-                                    overflow: "hidden",
-                                    borderRadius: "10px",
-                                    '&:hover': { transform: 'scale(1.05)' },
-                                    transition: 'transform 0.3s ease' 
+                                    width: '100%',
+                                    aspectRatio: '3 / 4'
                                 }}
                             >
-                                <Box sx={{ position: "relative", width: '100%', height: {xs:200, md: 400} }}>
-                                    <CardMedia
-                                        component="img"
-                                        image={categoryImagesState[category]?.current || imgPlaceholder}
-                                        alt={category}
-                                        loading="lazy"
-                                        sx={{
-                                            position: "absolute",
-                                            width: "100%",
-                                            height: "90%",
-                                            objectFit: "contain",
-                                            opacity: categoryImagesState[category]?.showNext ? 0 : 1,
-                                            transition: "opacity 0.5s ease-in-out",
-                                        }}
-                                    />
-                                    <CardMedia
-                                        component="img"
-                                        image={categoryImagesState[category]?.next || imgPlaceholder}
-                                        alt={category}
-                                        sx={{
-                                            position: "absolute",
-                                            width: "100%",
-                                            height: "90%",
-                                            objectFit: "contain",
-                                            opacity: categoryImagesState[category]?.showNext ? 1 : 0,
-                                            transition: "opacity 0.5s ease-in-out",
-                                        }}
-                                    />
-                                </Box>
-                                <CardContent sx={{ position: "absolute", bottom: { xs:-15, md: 0 }, left: 0, bgcolor: "rgba(13, 63, 112, 0.7)", width: "100%" }}>
-                                    <Typography variant="h6" sx={{ color: "white", textAlign: "center" }}>
-                                        {category.charAt(0).toUpperCase() + category.slice(1)}
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                    ))}
-                </Grid>
-            </Box>
+                                <CardMedia
+                                    component="img"
+                                    image={categoryImagesState[category]?.current || imgPlaceholder}
+                                    alt={category}
+                                    loading="lazy"
+                                    sx={{
+                                        position: "absolute",
+                                        top: 0,
+                                        left: 0,
+                                        width: "100%",
+                                        height: "100%",
+                                        objectFit: "contain",
+                                        opacity: categoryImagesState[category]?.showNext ? 0 : 1,
+                                        transition: "opacity 0.5s ease-in-out",
+                                    }}
+                                />
+                                <CardMedia
+                                    component="img"
+                                    image={categoryImagesState[category]?.next || imgPlaceholder}
+                                    alt={category}
+                                    loading="lazy"
+                                    sx={{
+                                        position: "absolute",
+                                        top: 0,
+                                        left: 0,
+                                        width: "100%",
+                                        height: "100%",
+                                        objectFit: "contain",
+                                        opacity: categoryImagesState[category]?.showNext ? 1 : 0,
+                                        transition: "opacity 0.5s ease-in-out",
+                                    }}
+                                />
+                            </Box>
+                            <CardContent sx={{ position: "absolute", bottom: { xs: -15, md: 0 }, left: 0, bgcolor: "rgba(13, 63, 112, 0.7)", width: "100%" }}>
+                                <Typography variant="h6" sx={{ color: "white", textAlign: "center" }}>
+                                    {category.charAt(0).toUpperCase() + category.slice(1)}
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                ))}
+            </Grid>
+        </Box>
     )
 }
 

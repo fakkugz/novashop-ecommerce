@@ -47,7 +47,6 @@ const SimpleProductSlider = ({ products, categories }) => {
       };
       
 
-    // ⏳ Mostrar spinner si no hay datos cargados
     if (allProducts.length === 0) {
         return (
             <Box sx={{

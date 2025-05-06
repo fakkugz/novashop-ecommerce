@@ -8,7 +8,6 @@ const ScrollToTopAndWait = ({ children }) => {
   useEffect(() => {
     setReady(false);
 
-    // Esperamos un tick antes de hacer scroll
     const raf = requestAnimationFrame(() => {
       const scrollContainer = document.querySelector('.main-scroll-container');
       if (scrollContainer) {

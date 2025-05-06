@@ -12,10 +12,9 @@ import { AuthContext } from '../contexts/AuthContext';
 export default function Cart() {
     const { cart, removeFromCart, updateQuantity, formatPrice, handleCloseModal, clearCart } = useContext(ShopContext);
     const { isAuthenticated } = useContext(AuthContext);
-    const [open, setOpen] = useState(false); // Estado para controlar el modal de confirmación
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        // Cierra el modal al desmontar el componente
         return () => {
             handleCloseModal();
         };
@@ -30,16 +29,16 @@ export default function Cart() {
     const calculateTotal = () => formatPrice(calculateSubtotal() + shippingPrice);
 
     const handleOpenModal = () => {
-        setOpen(true); // Abre el modal
+        setOpen(true);
     };
 
     const handleCloseModalConfirmation = () => {
-        setOpen(false); // Cierra el modal sin hacer nada
+        setOpen(false);
     };
 
     const handleConfirmCleanCart = () => {
-        clearCart(); // Llama a la función cleanCart
-        setOpen(false); // Cierra el modal después de limpiar el carrito
+        clearCart();
+        setOpen(false);
     };
 
     const isDisabled = cart.length === 0;
@@ -243,13 +242,13 @@ export default function Cart() {
                             Buy Now
                         </Button>
                         
-                        {/* Botón para limpiar el carrito */}
+                        {/* Limpiar el carrito */}
                         <Button
                             variant="outlined"
                             color="primary"
                             fullWidth
                             sx={{ mt: 2 }}
-                            onClick={handleOpenModal} // Abre el modal de confirmación
+                            onClick={handleOpenModal}
                         >
                             Clear Cart
                         </Button>
@@ -257,7 +256,6 @@ export default function Cart() {
                 </Grid>
             </Grid>
 
-            {/* Botón de volver a la página principal */}
             <Link to="/">
                 <Button onClick={() => { handleCloseModal(); navigate(-1); }} sx={{ alignSelf: 'flex-start', ml: 4, color: 'white' }}>
                     <ArrowBackIcon />
