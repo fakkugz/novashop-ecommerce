@@ -89,15 +89,16 @@ const CategoriesComp = () => {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                width: '90vh',
+                height: '80vh',
+                width: '100%',
                 flexDirection: 'column',
                 backgroundColor: 'transparent',
-                mt: '500px'
             }}>
                 <CircularProgress sx={{ color: "#FF5733" }} />
             </Box>
         );
     }
+    
 
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: { xs: 0, md: 4 } }}>
