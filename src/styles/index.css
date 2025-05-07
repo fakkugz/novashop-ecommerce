@@ -153,6 +153,17 @@ button:hover {
   }
 }
 
+/* CATEGORIES FADE */
+
+.fade-image {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.fade-image.show {
+  opacity: 1;
+}
+
 /* SCROLL PERSONALIZADO */
 .main-scroll-container {
   position: relative;
