@@ -131,8 +131,8 @@ const CategoriesComp = () => {
                             {/* Contenedor con aspecto fijo */}
                             <Box
                                 sx={{
-                                    width: '100%',
-                                    aspectRatio: '268 / 357.33',
+                                    width: 300,
+                                    height: 390,
                                     position: 'relative',
                                 }}
                             >
