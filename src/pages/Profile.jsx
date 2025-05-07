@@ -1,8 +1,16 @@
-import { useContext, useState } from "react";
-import { TextField, Button, Container, Typography, Paper,
-        Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
-import { Grid } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Grid from '@mui/material/Grid';
+import { useContext, useState } from 'react';
 import { AuthContext } from "../contexts/AuthContext";
+
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);

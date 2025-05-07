@@ -1,6 +1,12 @@
-import { Box, Typography, Container, Link, Divider } from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Link from '@mui/material/Link';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+
 import GitHubIcon from '@mui/icons-material/GitHub';
-import { IconButton } from '@mui/material';
+
 
 const Footer = () => {
   return (

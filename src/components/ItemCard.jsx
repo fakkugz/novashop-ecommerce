@@ -1,12 +1,29 @@
 import { styled } from '@mui/material/styles';
-import { Card, CardHeader, CardMedia, CardContent, CardActions, Collapse, Box, IconButton, Tooltip, Typography,
-        Dialog, DialogActions, DialogContent, DialogTitle, Button } from '@mui/material';
-import { Favorite, ShoppingCart } from '@mui/icons-material';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import CardActions from '@mui/material/CardActions';
+import Collapse from '@mui/material/Collapse';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Button from '@mui/material/Button';
+
+import Favorite from '@mui/icons-material/Favorite';
+import ShoppingCart from '@mui/icons-material/ShoppingCart';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 import { useContext, useState } from 'react';
 import { ShopContext } from '../contexts/ShopContext';
-import { Link } from 'react-router-dom';
 import { AuthContext } from '../contexts/AuthContext';
+import { Link } from 'react-router-dom';
+
 
 const ExpandMoreStyled = styled((props) => {
   const { expand, ...other } = props;

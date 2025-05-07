@@ -2,11 +2,11 @@ import { useState, useContext, useEffect, lazy, Suspense } from "react";
 import axios from "axios";
 import { ShopContext } from "./contexts/ShopContext";
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { ThemeProvider, CssBaseline, CircularProgress } from '@mui/material';
+import { ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import CircularProgress from '@mui/material/CircularProgress';
 import Theme from './contexts/Theme';
 import ScrollToTopAndWait from "./components/ScrollToTopAndWait";
-
-
 import NavBar from "./components/NavBar";
 import Home from "./pages/Home";
 

@@ -1,8 +1,15 @@
-import { Box, Card, CardMedia, CardContent, Typography, Grid, CircularProgress } from "@mui/material";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import CircularProgress from "@mui/material/CircularProgress";
 import { useContext, useState, useEffect, useRef } from "react";
 import { ShopContext } from "../contexts/ShopContext";
 import { useNavigate } from "react-router-dom";
-import imgPlaceholder from '../assets/images/27002.webp'
+import imgPlaceholder from '../assets/images/27002.webp';
+
 
 const CategoriesComp = () => {
 

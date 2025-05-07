@@ -1,11 +1,17 @@
 import { useState, useEffect, useContext } from "react";
 import { ShopContext } from "../contexts/ShopContext";
-import { Drawer, Box, Typography, Button, Skeleton, Pagination } from '@mui/material';
+import Drawer from '@mui/material/Drawer';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Skeleton from '@mui/material/Skeleton';
+import Pagination from '@mui/material/Pagination';
 import MenuIcon from '@mui/icons-material/Menu';
+import Grid from '@mui/material/Grid';
 import ItemCard from "../components/ItemCard";
-import { Grid } from '@mui/material';
 import FiltersDrawer from "../components/FiltersDrawer";
 import AddedToCart from "../components/AddedToCart";
+
 
 const Shop = ({ loading }) => {
 

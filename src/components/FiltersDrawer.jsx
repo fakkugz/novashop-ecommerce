@@ -1,9 +1,20 @@
 import { useContext, useState, useEffect } from 'react';
-import {
-    Box, TextField, Button, Typography, Divider, List, ListItem,
-    ListItemButton, ListItemIcon, ListItemText, Collapse, Switch, Slider,
-    IconButton } from '@mui/material';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Collapse from '@mui/material/Collapse';
+import Switch from '@mui/material/Switch';
+import Slider from '@mui/material/Slider';
+import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
+
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CategoryIcon from '@mui/icons-material/Category';
 import StarIcon from '@mui/icons-material/Star';
@@ -12,8 +23,10 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import CloseIcon from '@mui/icons-material/Close';
+
 import { ShopContext } from '../contexts/ShopContext';
 import { useLocation } from 'react-router-dom';
+
 
 const FiltersDrawer = () => {
 

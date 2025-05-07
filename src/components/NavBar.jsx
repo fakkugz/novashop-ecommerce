@@ -1,15 +1,33 @@
 import { useContext, useState } from 'react';
-import {
-  AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button,
-  Tooltip, MenuItem, Badge, Dialog, DialogActions, DialogContent, DialogTitle
-} from '@mui/material';
+
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
+import Badge from '@mui/material/Badge';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { Person } from "@mui/icons-material";
+import Person from '@mui/icons-material/Person';
+
 import { Link, useNavigate } from 'react-router-dom';
+
 import { ShopContext } from '../contexts/ShopContext';
-import NLogo from '../assets/NLogo.png'
 import { AuthContext } from '../contexts/AuthContext';
+
+import NLogo from '../assets/NLogo.png';
+
 
 
 const NavBar = () => {

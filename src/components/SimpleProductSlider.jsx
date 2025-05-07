@@ -2,9 +2,17 @@ import { useContext } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { ShopContext } from "../contexts/ShopContext";
-import { Box, Card, CardMedia, CardContent, Typography, CircularProgress } from "@mui/material";
+
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import CircularProgress from "@mui/material/CircularProgress";
+
 import { Link } from "react-router-dom";
+import { ShopContext } from "../contexts/ShopContext";
+
 
 const SimpleProductSlider = ({ products, categories }) => {
 

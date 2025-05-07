@@ -1,9 +1,16 @@
 import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../contexts/AuthContext";
-import { Container, Paper, Typography, TextField, Button, Box, Modal } from "@mui/material";
-import { Grid } from '@mui/material';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Grid from '@mui/material/Grid';
 import { Link, useNavigate } from "react-router-dom";
 import { ShopContext } from "../contexts/ShopContext";
+
 
 const Checkout = () => {
   const { user } = useContext(AuthContext);

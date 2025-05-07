@@ -1,14 +1,25 @@
-import { Card, CardMedia, CardContent, Typography, Button, Box, Divider, IconButton,
-         Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
-import { useTheme } from "@mui/material/styles";
-import { Favorite } from '@mui/icons-material';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Grid } from '@mui/material';
+import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import Grid from '@mui/material/Grid';
+import { useTheme } from '@mui/material/styles';
+import Favorite from '@mui/icons-material/Favorite';
+import ArrowBack from '@mui/icons-material/ArrowBack';
 import { useContext, useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { ShopContext } from '../contexts/ShopContext';
 import AddedToCart from '../components/AddedToCart';
 import { AuthContext } from '../contexts/AuthContext';
+
 
 const ProductDetails = () => {
 
@@ -81,7 +92,7 @@ const ProductDetails = () => {
                 sx={{ alignSelf: 'center', ml: 4, color: 'white' }}
                 onClick={() => navigate(-1)}
             >
-                <ArrowBackIcon />
+                <ArrowBack />
                 <Typography variant="body1" sx={{ marginLeft: 1 }}>
                     BACK
                 </Typography>
@@ -105,14 +116,15 @@ const ProductDetails = () => {
                             justifyContent: 'center',
                             alignItems: 'center',
                             overflow: 'hidden',
+                            position: 'relative',
                             p: 1,
                             }}>
                         <IconButton
                             onClick={toggleFavorite}
                             sx={{
                                 position: 'absolute',
-                                top: 100,
-                                left: 125,
+                                top: 5,
+                                left: 5,
                                 backgroundColor: 'rgba(0, 0, 0, 0.5)',
                                 '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.7)' }
                             }}
@@ -217,7 +229,7 @@ const ProductDetails = () => {
                 sx={{ alignSelf: 'center', ml: 4, color: 'white' }}
                 onClick={() => navigate(-1)}
             >
-                <ArrowBackIcon />
+                <ArrowBack />
                 <Typography variant="body1" sx={{ marginLeft: 1 }}>
                     BACK
                 </Typography>

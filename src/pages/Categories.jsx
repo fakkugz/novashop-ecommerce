@@ -1,7 +1,10 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ShopContext } from "../contexts/ShopContext";
-import { Container, Typography, Paper, Box } from "@mui/material";
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
 import ItemCard from "../components/ItemCard";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
