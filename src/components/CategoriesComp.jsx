@@ -124,16 +124,18 @@ const CategoriesComp = () => {
                                 overflow: "hidden",
                                 borderRadius: "10px",
                                 '&:hover': { transform: 'scale(1.05)' },
-                                transition: 'transform 0.3s ease'
+                                transition: 'transform 0.3s ease',
                             }}
                         >
+                            {/* Contenedor con aspecto fijo */}
                             <Box
                                 sx={{
-                                    position: "relative",
                                     width: '100%',
-                                    aspectRatio: '3 / 4'
+                                    aspectRatio: '268 / 357.33',
+                                    position: 'relative',
                                 }}
                             >
+                                {/* Imagen actual */}
                                 <CardMedia
                                     component="img"
                                     image={categoryImagesState[category]?.current || imgPlaceholder}
@@ -150,6 +152,7 @@ const CategoriesComp = () => {
                                         transition: "opacity 0.5s ease-in-out",
                                     }}
                                 />
+                                {/* Imagen siguiente */}
                                 <CardMedia
                                     component="img"
                                     image={categoryImagesState[category]?.next || imgPlaceholder}
@@ -167,8 +170,21 @@ const CategoriesComp = () => {
                                     }}
                                 />
                             </Box>
-                            <CardContent sx={{ position: "absolute", bottom: { xs: -15, md: 0 }, left: 0, bgcolor: "rgba(13, 63, 112, 0.7)", width: "100%" }}>
-                                <Typography variant="h6" sx={{ color: "white", textAlign: "center" }}>
+
+                            {/* Contenido inferior */}
+                            <CardContent
+                                sx={{
+                                    position: "absolute",
+                                    bottom: { xs: -15, md: 0 },
+                                    left: 0,
+                                    bgcolor: "rgba(13, 63, 112, 0.7)",
+                                    width: "100%",
+                                }}
+                            >
+                                <Typography
+                                    variant="h6"
+                                    sx={{ color: "white", textAlign: "center" }}
+                                >
                                     {category.charAt(0).toUpperCase() + category.slice(1)}
                                 </Typography>
                             </CardContent>

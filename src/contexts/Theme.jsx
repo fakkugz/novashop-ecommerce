@@ -12,7 +12,7 @@ const Theme = createTheme({
     },
   },
   typography: {
-    fontFamily: '"Montserrat", "Poppins", "Roboto", sans-serif',
+    fontFamily: '"Montserrat", "Poppins", sans-serif',
   },
   components: {
     MuiCssBaseline: {
