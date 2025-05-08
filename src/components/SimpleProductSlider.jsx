@@ -40,12 +40,13 @@ const SimpleProductSlider = ({ products, categories }) => {
     }
 
     return (
-        <Box sx={{ width: "90%", mb: { xs: 8, md: 4 }, px: 2, minHeight: 280 }}>
+        <Box sx={{ width: "90%", mb: { xs: 8, md: 4 }, px: 2, minWidth: 400, minHeight: 280 }}>
             <Swiper
                 modules={[Navigation, Autoplay]}
                 spaceBetween={10}
                 slidesPerView={5}
                 navigation
+                loop={true}
                 autoplay={{ delay: 3000, disableOnInteraction: false }}
                 grabCursor={true}
                 simulateTouch={true}
@@ -66,8 +67,9 @@ const SimpleProductSlider = ({ products, categories }) => {
                                 sx={{
                                     width: {
                                         xs: 100,
-                                        sm: 160,
-                                        md: 200,
+                                        sm: 150,
+                                        md: 175,
+                                        lg: 185
                                     },
                                     height: { xs: 215, sm: 260 },
                                     display: "flex",

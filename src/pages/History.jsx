@@ -28,6 +28,7 @@ const History = () => {
                     spaceBetween: 10,
                     slidesPerView: 4,
                     navigation: true,
+                    loop: true,
                     autoplay: { delay: 3000, disableOnInteraction: false },
                     grabCursor: true,
                     simulateTouch: true,
