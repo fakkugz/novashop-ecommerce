@@ -1,7 +1,8 @@
 import { useContext } from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import { Navigation, Autoplay } from "swiper/modules";
 
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -13,75 +14,53 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Link } from "react-router-dom";
 import { ShopContext } from "../contexts/ShopContext";
 
-
 const SimpleProductSlider = ({ products, categories }) => {
-
     const { allProducts } = useContext(ShopContext);
 
     const filteredProducts = categories?.length
-        ? allProducts.filter(product => categories.includes(product.category))
+        ? allProducts.filter((product) => categories.includes(product.category))
         : products;
-
-
-    const productSliderSettings = {
-        lazyLoad: "ondemand",
-        dots: false,
-        infinite: true,
-        speed: 1000,
-        autoplay: true,
-        autoplaySpeed: 3000,
-        arrows: true,
-        slidesToShow: 5,
-        slidesToScroll: 1,
-        beforeChange: () => {
-            if (document.activeElement instanceof HTMLElement) {
-              document.activeElement.blur();
-            }
-          },
-        responsive: [
-          {
-            breakpoint: 1200,
-            settings: {
-              slidesToShow: 4,
-            },
-          },
-          {
-            breakpoint: 900,
-            settings: {
-              slidesToShow: 3,
-            },
-          },
-        ],
-      };
-      
 
     if (allProducts.length === 0) {
         return (
-            <Box sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '100%',
-                minHeight: 280,
-                flexDirection: 'column',
-                backgroundColor: '#121212'
-            }}>
+            <Box
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: "90vh",
+                    flexDirection: "column",
+                    backgroundColor: "#121212",
+                }}
+            >
                 <CircularProgress sx={{ color: "#FF5733" }} />
             </Box>
         );
     }
 
     return (
-        <Box className="product-slider" sx={{ width: "90%", my: {xs: 10, sm: 8, md: 4}, px: 2, minHeight: 280 }}>
-            <Slider {...productSliderSettings}>
+        <Box sx={{ width: "90%", my: { xs: 10, sm: 8, md: 4 }, px: 2, minHeight: 280 }}>
+            <Swiper
+                modules={[Navigation, Autoplay]}
+                spaceBetween={10}
+                slidesPerView={5}
+                navigation
+                autoplay={{ delay: 3000, disableOnInteraction: false }}
+                grabCursor={true}
+                simulateTouch={true}
+                touchRatio={1.5}
+                touchStartPreventDefault={false}
+                breakpoints={{
+                    0: { slidesPerView: 3 },
+                    600: { slidesPerView: 3 },
+                    900: { slidesPerView: 4 },
+                    1200: { slidesPerView: 5 },
+                }}
+                className="product-slider"
+            >
                 {filteredProducts.map((product) => (
-                    <Box
-                        key={product.id}
-                        sx={{
-                            padding: "10px",
-                        }}
-                    >
-                        <Link to={`/shop/products/${product.id}`} style={{ textDecoration: 'none' }}>
+                    <SwiperSlide key={product.id}>
+                        <Link to={`/shop/products/${product.id}`} style={{ textDecoration: "none" }}>
                             <Card
                                 sx={{
                                     width: {
@@ -89,7 +68,7 @@ const SimpleProductSlider = ({ products, categories }) => {
                                         sm: 160,
                                         md: 200,
                                     },
-                                    height: {xs: 215, sm: 260},
+                                    height: { xs: 215, sm: 260 },
                                     display: "flex",
                                     flexDirection: "column",
                                     alignItems: "center",
@@ -98,7 +77,6 @@ const SimpleProductSlider = ({ products, categories }) => {
                                     borderRadius: "6px",
                                     boxShadow: "2px 2px 2px rgba(51, 51, 51, 0.17)",
                                     backgroundColor: "#fff",
-                                    transform: "scale(1)"
                                 }}
                             >
                                 <CardMedia
@@ -109,25 +87,24 @@ const SimpleProductSlider = ({ products, categories }) => {
                                     sx={{
                                         width: "100%",
                                         height: 150,
-                                        minHeight: {xs: 120, sm: 150},
+                                        minHeight: { xs: 120, sm: 150 },
                                         objectFit: "contain",
                                         borderRadius: "6px 6px 0 0",
                                     }}
                                 />
-                                <CardContent sx={{ p: {xs: 0, sm: 1}}}>
+                                <CardContent sx={{ p: { xs: 0, sm: 1 } }}>
                                     <Typography
                                         variant="body1"
                                         sx={{
                                             display: "-webkit-box",
                                             WebkitBoxOrient: "vertical",
                                             WebkitLineClamp: 2,
-                                            textOverflow: 'ellipsis',
+                                            textOverflow: "ellipsis",
                                             overflow: "hidden",
                                             height: "3em",
-                                            width: {xs: '7em', sm: '9em', md: '10em', lg: '11em'},
-                                            fontSize: {xs: '13px', sm: '16px'},
-                                            textAlign: 'center',
-                                            p: 0
+                                            width: { xs: "7em", sm: "9em", md: "10em", lg: "11em" },
+                                            fontSize: { xs: "13px", sm: "16px" },
+                                            textAlign: "center",
                                         }}
                                     >
                                         {product.title}
@@ -138,15 +115,17 @@ const SimpleProductSlider = ({ products, categories }) => {
                                             color: "black",
                                             textAlign: "center",
                                             mt: 1,
-                                            fontWeight: '400' }}>
+                                            fontWeight: "400",
+                                        }}
+                                    >
                                         ${product.price}
                                     </Typography>
                                 </CardContent>
                             </Card>
                         </Link>
-                    </Box>
+                    </SwiperSlide>
                 ))}
-            </Slider>
+            </Swiper>
         </Box>
     );
 };

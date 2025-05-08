@@ -27,7 +27,7 @@ const FadeImage = ({ src }) => {
     }, [src, prevSrc]);
 
     return (
-        <Box sx={{ position: 'relative', width: '100%', height: { xs: 230, sm: 300, md: 390 } }}>
+        <Box sx={{ position: 'relative', width: '100%', height: { xs: 190, sm: 300, md: 390 } }}>
             <motion.img
                 key={prevSrc}
                 src={prevSrc}

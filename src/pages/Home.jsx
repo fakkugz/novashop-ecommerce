@@ -1,91 +1,89 @@
 import { useContext } from "react";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation } from "swiper/modules";
+import 'swiper/css';
+import 'swiper/css/navigation';
+
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import CategoriesComp from "../components/CategoriesComp";
 import SimpleProductSlider from "../components/SimpleProductSlider";
 import { ShopContext } from "../contexts/ShopContext";
 import { Link } from "react-router-dom";
+
 import img1 from '../assets/images/1.webp';
 import img2 from '../assets/images/2.webp';
 import img3 from '../assets/images/3.webp';
 import img4 from '../assets/images/4.webp';
 
 const Home = () => {
+  const { allProducts } = useContext(ShopContext);
 
-    const { allProducts } = useContext(ShopContext)
+  const slides = [
+    { img: img1, path: "/shop?category=electronics" },
+    { img: img2, path: "/shop?category=women's clothing" },
+    { img: img3, path: "/shop?category=jewelery" },
+    { img: img4, path: "/shop?category=men's clothing" },
+  ];
 
-    const mainSliderSettings = {
-        lazyLoad: "ondemand",
-        dots: false,
-        infinite: true,
-        speed: 1000,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 5000,
-        arrows: true,
-    };
+  return (
+    <Box className="home-container" sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+      <Box className="slider-container" sx={{ width: { xs: "112%", sm: '100%' }, mb: -10 }}>
+        <Swiper
+          modules={[Autoplay, Navigation]}
+          spaceBetween={0}
+          slidesPerView={1}
+          autoplay={{ delay: 5000, disableOnInteraction: false }}
+          navigation
+          loop
+          grabCursor
+          className="home-slider"
+        >
+          {slides.map(({ img, path }, index) => (
+            <SwiperSlide key={index}>
+              <Link to={path}>
+                <Box
+                  sx={{
+                    width: '100%',
+                    height: 'auto',
+                    overflow: 'hidden',
+                  }}
+                >
+                  <img
+                    src={img}
+                    alt={`Slide ${index + 1}`}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'contain',
+                      display: 'block',
+                    }}
+                  />
+                </Box>
+              </Link>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </Box>
 
-    const slides = [
-        { img: img1, path: "/shop?category=electronics" },
-        { img: img2, path: "/shop?category=women's clothing" },
-        { img: img3, path: "/shop?category=jewelery" },
-        { img: img4, path: "/shop?category=men's clothing" },
-    ];
-
-
-    return (
-        <Box className="home-container" sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <Box className="slider-container" sx={{ width: { xs: "112%", sm: '100%' }, mb: -10 }}>
-                <Slider {...mainSliderSettings}>
-                    {slides.map(({ img, path }, index) => (
-                        <Box
-                            key={index}
-                            className="slide"
-                            sx={{
-                                width: '100%',
-                                height: '100%',
-                                position: 'relative',
-                                overflow: 'hidden',
-                            }}
-                        >
-                            <Link to={path}>
-                                <img
-                                    src={img}
-                                    alt={`Slide ${index + 1}`}
-                                    style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        objectFit: 'cover',
-                                        display: 'block',
-                                    }}
-                                />
-                            </Link>
-                        </Box>
-                    ))}
-                </Slider>
-            </Box>
-            <SimpleProductSlider products={allProducts} />
-            <CategoriesComp />
-            <Typography
-                variant="h5"
-                sx={{
-                    color: "white",
-                    alignSelf: { xs: 'center', sm: 'flex-start' },
-                    fontFamily: 'Montserrat, sans-serif',
-                    pl: { xs: 0, sm: 10 },
-                    mt: 10,
-                    mb: { xs: -8, md: -2 }
-                }}
-            >
-                RECOMMENDED FOR YOU
-            </Typography>
-            <SimpleProductSlider categories={["electronics", "men's clothing"]} />
-        </Box>
-    );
+      <SimpleProductSlider products={allProducts} />
+      <CategoriesComp />
+      <Typography
+        variant="h5"
+        sx={{
+          color: "white",
+          alignSelf: { xs: 'center', sm: 'flex-start' },
+          fontFamily: 'Montserrat, sans-serif',
+          pl: { xs: 0, sm: 10 },
+          mt: 10,
+          mb: { xs: -8, md: -2 }
+        }}
+      >
+        RECOMMENDED FOR YOU
+      </Typography>
+      <SimpleProductSlider categories={["electronics", "men's clothing"]} />
+    </Box>
+  );
 };
 
 export default Home;
