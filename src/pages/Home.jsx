@@ -17,96 +17,102 @@ import img3 from '../assets/images/3.webp';
 import img4 from '../assets/images/4.webp';
 
 const Home = () => {
-  const { allProducts } = useContext(ShopContext);
-  const [showSlider, setShowSlider] = useState(false);
+    const { allProducts } = useContext(ShopContext);
+    const [showSlider, setShowSlider] = useState(false);
 
-  const slides = [
-    { img: img1, path: "/shop?category=electronics" },
-    { img: img2, path: "/shop?category=women's clothing" },
-    { img: img3, path: "/shop?category=jewelery" },
-    { img: img4, path: "/shop?category=men's clothing" },
-  ];
+    const slides = [
+        { img: img1, path: "/shop?category=electronics" },
+        { img: img2, path: "/shop?category=women's clothing" },
+        { img: img3, path: "/shop?category=jewelery" },
+        { img: img4, path: "/shop?category=men's clothing" },
+    ];
 
-  useEffect(() => {
-    const timer = setTimeout(() => setShowSlider(true), 200);
-    return () => clearTimeout(timer);
-  }, []);
+    useEffect(() => {
+        const timer = setTimeout(() => setShowSlider(true), 200);
+        return () => clearTimeout(timer);
+    }, []);
 
-  return (
-    <Box className="home-container" sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-      <Box className="slider-container" sx={{ width: { xs: "112%", sm: '100%' }, mb: 0 }}>
-        {!showSlider ? (
-          <Link to={slides[0].path}>
-            <Box sx={{ width: '100%', overflow: 'hidden' }}>
-              <img
-                src={slides[0].img}
-                alt="Slide 1"
-                fetchpriority="high"
-                loading="eager"
-                width="970"
-                height="250"
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                  objectFit: 'cover',
-                  display: 'block',
-                }}
-              />
+    return (
+        <Box className="home-container" sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+            <Box className="slider-container" sx={{ width: { xs: "112%", sm: '100%' }, mb: { xs: -2, sm: -3, md: -4, lg: -6 } }}>
+                {!showSlider ? (
+                    <Link to={slides[0].path}>
+                        <Box sx={{ width: '100%', aspectRatio: '970 / 250', overflow: 'hidden' }}>
+                            <img
+                                src={slides[0].img}
+                                alt="Slide 1"
+                                fetchpriority="high"
+                                loading="eager"
+                                width="970"
+                                height="250"
+                                style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'cover',
+                                    objectPosition: 'center',
+                                    display: 'block',
+                                }}
+                            />
+                        </Box>
+                    </Link>
+                ) : (
+                    <Swiper
+                        modules={[Autoplay, Navigation]}
+                        spaceBetween={0}
+                        slidesPerView={1}
+                        autoplay={{ delay: 5000, disableOnInteraction: false }}
+                        navigation
+                        loop
+                        grabCursor
+                        className="home-slider"
+                    >
+                        {slides.map(({ img, path }, index) => (
+                            <SwiperSlide key={index}>
+                                <Link to={path}>
+                                    <Box sx={{ width: '100%', aspectRatio: '970 / 250', overflow: 'hidden' }}>
+                                        <img
+                                            src={img}
+                                            alt={`Slide ${index + 1}`}
+                                            width="970"
+                                            height="250"
+                                            loading={index === 0 ? "eager" : "lazy"}
+                                            fetchpriority={index === 0 ? "high" : "low"}
+                                            style={{
+                                                width: '100%',
+                                                height: '100%',
+                                                objectFit: 'cover',
+                                                objectPosition: 'center',
+                                                display: 'block',
+                                            }}
+                                        />
+                                    </Box>
+                                </Link>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                )}
             </Box>
-          </Link>
-        ) : (
-          <Swiper
-            modules={[Autoplay, Navigation]}
-            spaceBetween={0}
-            slidesPerView={1}
-            autoplay={{ delay: 5000, disableOnInteraction: false }}
-            navigation
-            loop
-            grabCursor
-            className="home-slider"
-          >
-            {slides.map(({ img, path }, index) => (
-              <SwiperSlide key={index}>
-                <Link to={path}>
-                  <Box sx={{ width: '100%', height: 'auto', overflow: 'hidden' }}>
-                    <img
-                      src={img}
-                      alt={`Slide ${index + 1}`}
-                      style={{
-                        width: '100%',
-                        height: 'auto',
-                        objectFit: 'cover',
-                        display: 'block',
-                      }}
-                    />
-                  </Box>
-                </Link>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        )}
-      </Box>
 
-      <SimpleProductSlider products={allProducts} />
-      <CategoriesComp />
+            <SimpleProductSlider products={allProducts} />
+            <CategoriesComp />
 
-      <Typography
-        variant="h5"
-        sx={{
-          color: "white",
-          alignSelf: { xs: 'center', sm: 'flex-start' },
-          fontFamily: 'Montserrat, sans-serif',
-          pl: { xs: 0, sm: 10 },
-          mt: 10,
-          mb: { xs: -8, md: -2 }
-        }}
-      >
-        RECOMMENDED FOR YOU
-      </Typography>
+            <Typography
+                variant="h5"
+                sx={{
+                    color: "white",
+                    alignSelf: { xs: 'center', sm: 'flex-start' },
+                    fontFamily: 'Montserrat, sans-serif',
+                    pl: { xs: 0, sm: 10 },
+                    mt: 10,
+                    mb: 2
+                }}
+            >
+                RECOMMENDED FOR YOU
+            </Typography>
 
-      <SimpleProductSlider categories={["electronics", "men's clothing"]} />
-    </Box>
-  );
+            <SimpleProductSlider categories={["electronics", "men's clothing"]} />
+        </Box>
+    );
 };
 
 export default Home;

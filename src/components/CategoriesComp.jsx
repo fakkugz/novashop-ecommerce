@@ -124,7 +124,7 @@ const CategoriesComp = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    height: '80vh',
+                    height: 300,
                     width: '100%',
                     flexDirection: 'column',
                     backgroundColor: 'transparent',

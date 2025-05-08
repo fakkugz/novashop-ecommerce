@@ -29,7 +29,7 @@ const SimpleProductSlider = ({ products, categories }) => {
                     justifyContent: "center",
                     alignItems: "center",
                     width: '100%',
-                    height: 400,
+                    height: 300,
                     flexDirection: "column",
                     backgroundColor: "#121212",
                 }}
@@ -40,7 +40,7 @@ const SimpleProductSlider = ({ products, categories }) => {
     }
 
     return (
-        <Box sx={{ width: "90%", my: { xs: 10, sm: 8, md: 4 }, px: 2, minHeight: 280 }}>
+        <Box sx={{ width: "90%", mb: { xs: 8, md: 4 }, px: 2, minHeight: 280 }}>
             <Swiper
                 modules={[Navigation, Autoplay]}
                 spaceBetween={10}
