@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import 'swiper/css';
@@ -18,6 +18,7 @@ import img4 from '../assets/images/4.webp';
 
 const Home = () => {
   const { allProducts } = useContext(ShopContext);
+  const [showSlider, setShowSlider] = useState(false);
 
   const slides = [
     { img: img1, path: "/shop?category=electronics" },
@@ -26,49 +27,66 @@ const Home = () => {
     { img: img4, path: "/shop?category=men's clothing" },
   ];
 
+  useEffect(() => {
+    const timer = setTimeout(() => setShowSlider(true), 200);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <Box className="home-container" sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-      <Box className="slider-container" sx={{ width: { xs: "112%", sm: '100%' }, mb: -10 }}>
-        <Swiper
-          modules={[Autoplay, Navigation]}
-          spaceBetween={0}
-          slidesPerView={1}
-          autoplay={{ delay: 5000, disableOnInteraction: false }}
-          navigation
-          loop
-          grabCursor
-          className="home-slider"
-        >
-          {slides.map(({ img, path }, index) => (
-            <SwiperSlide key={index}>
-              <Link to={path}>
-                <Box
-                  sx={{
-                    width: '100%',
-                    height: 'auto',
-                    overflow: 'hidden',
-                  }}
-                >
-                  <img
-                    src={img}
-                    alt={`Slide ${index + 1}`}
-                    fetchpriority="high"
-                    style={{
-                      width: '100%',
-                      height: 'auto',
-                      objectFit: 'cover',
-                      display: 'block',
-                    }}
-                  />
-                </Box>
-              </Link>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+      <Box className="slider-container" sx={{ width: { xs: "112%", sm: '100%' }, mb: 0 }}>
+        {!showSlider ? (
+          <Link to={slides[0].path}>
+            <Box sx={{ width: '100%', overflow: 'hidden' }}>
+              <img
+                src={slides[0].img}
+                alt="Slide 1"
+                fetchpriority="high"
+                style={{
+                  width: '100%',
+                  height: 'auto',
+                  objectFit: 'cover',
+                  display: 'block',
+                }}
+              />
+            </Box>
+          </Link>
+        ) : (
+          <Swiper
+            modules={[Autoplay, Navigation]}
+            spaceBetween={0}
+            slidesPerView={1}
+            autoplay={{ delay: 5000, disableOnInteraction: false }}
+            navigation
+            loop
+            grabCursor
+            className="home-slider"
+          >
+            {slides.map(({ img, path }, index) => (
+              <SwiperSlide key={index}>
+                <Link to={path}>
+                  <Box sx={{ width: '100%', height: 'auto', overflow: 'hidden' }}>
+                    <img
+                      src={img}
+                      alt={`Slide ${index + 1}`}
+                      style={{
+                        width: '100%',
+                        height: 'auto',
+                        objectFit: 'cover',
+                        display: 'block',
+                      }}
+                    />
+                  </Box>
+                </Link>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
       </Box>
 
       <SimpleProductSlider products={allProducts} />
       <CategoriesComp />
+
       <Typography
         variant="h5"
         sx={{
@@ -82,6 +100,7 @@ const Home = () => {
       >
         RECOMMENDED FOR YOU
       </Typography>
+
       <SimpleProductSlider categories={["electronics", "men's clothing"]} />
     </Box>
   );
