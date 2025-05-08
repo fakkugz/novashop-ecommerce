@@ -52,10 +52,11 @@ const Home = () => {
                   <img
                     src={img}
                     alt={`Slide ${index + 1}`}
+                    fetchpriority="high"
                     style={{
                       width: '100%',
-                      height: '100%',
-                      objectFit: 'contain',
+                      height: 'auto',
+                      objectFit: 'cover',
                       display: 'block',
                     }}
                   />

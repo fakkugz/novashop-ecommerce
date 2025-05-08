@@ -28,7 +28,8 @@ const SimpleProductSlider = ({ products, categories }) => {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    width: "90vh",
+                    width: '100%',
+                    height: 400,
                     flexDirection: "column",
                     backgroundColor: "#121212",
                 }}
