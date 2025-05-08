@@ -71,7 +71,7 @@ const SimpleProductSlider = ({ products, categories }) => {
     }
 
     return (
-        <Box className="product-slider" sx={{ width: "90%", my: {xs: 10, sm: 8, md: 4}, px: 2 }}>
+        <Box className="product-slider" sx={{ width: "90%", my: {xs: 10, sm: 8, md: 4}, px: 2, minHeight: 280 }}>
             <Slider {...productSliderSettings}>
                 {filteredProducts.map((product) => (
                     <Box

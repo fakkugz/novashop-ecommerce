@@ -39,12 +39,30 @@ const Home = () => {
 
     return (
         <Box className="home-container" sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <Box className="slider-container" sx={{ width: {xs: "112%", sm: '100%' }, mb: -12 }}>
+            <Box className="slider-container" sx={{ width: { xs: "112%", sm: '100%' }, mb: -10 }}>
                 <Slider {...mainSliderSettings}>
                     {slides.map(({ img, path }, index) => (
-                        <Box key={index} className="slide">
+                        <Box
+                            key={index}
+                            className="slide"
+                            sx={{
+                                width: '100%',
+                                height: '100%',
+                                position: 'relative',
+                                overflow: 'hidden',
+                            }}
+                        >
                             <Link to={path}>
-                                <img src={img} alt={`Slide ${index + 1}`} style={{ width: "100%", cursor: "pointer" }} />
+                                <img
+                                    src={img}
+                                    alt={`Slide ${index + 1}`}
+                                    style={{
+                                        width: '100%',
+                                        height: '100%',
+                                        objectFit: 'cover',
+                                        display: 'block',
+                                    }}
+                                />
                             </Link>
                         </Box>
                     ))}
@@ -56,9 +74,9 @@ const Home = () => {
                 variant="h5"
                 sx={{
                     color: "white",
-                    alignSelf: {xs: 'center', sm: 'flex-start'},
+                    alignSelf: { xs: 'center', sm: 'flex-start' },
                     fontFamily: 'Montserrat, sans-serif',
-                    pl: {xs: 0, sm: 10},
+                    pl: { xs: 0, sm: 10 },
                     mt: 10,
                     mb: { xs: -8, md: -2 }
                 }}
