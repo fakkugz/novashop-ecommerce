@@ -27,70 +27,43 @@ const Home = () => {
         { img: img4, path: "/shop?category=men's clothing" },
     ];
 
-    useEffect(() => {
-        const timer = setTimeout(() => setShowSlider(true), 200);
-        return () => clearTimeout(timer);
-    }, []);
-
     return (
         <Box className="home-container" sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            <Box className="slider-container" sx={{ width: { xs: "112%", sm: '100%' }, mb: { xs: -2, sm: -3, md: -4, lg: -6 } }}>
-                {!showSlider ? (
-                    <Link to={slides[0].path}>
-                        <Box sx={{ width: '100%', aspectRatio: '970 / 250', overflow: 'hidden' }}>
-                            <img
-                                src={slides[0].img}
-                                alt="Slide 1"
-                                fetchpriority="high"
-                                loading="eager"
-                                width="970"
-                                height="250"
-                                style={{
-                                    width: '100%',
-                                    height: '100%',
-                                    objectFit: 'cover',
-                                    objectPosition: 'center',
-                                    display: 'block',
-                                }}
-                            />
-                        </Box>
-                    </Link>
-                ) : (
-                    <Swiper
-                        modules={[Autoplay, Navigation]}
-                        spaceBetween={0}
-                        slidesPerView={1}
-                        autoplay={{ delay: 5000, disableOnInteraction: false }}
-                        navigation
-                        loop
-                        grabCursor
-                        className="home-slider"
-                    >
-                        {slides.map(({ img, path }, index) => (
-                            <SwiperSlide key={index}>
-                                <Link to={path}>
-                                    <Box sx={{ width: '100%', aspectRatio: '970 / 250', overflow: 'hidden' }}>
-                                        <img
-                                            src={img}
-                                            alt={`Slide ${index + 1}`}
-                                            width="970"
-                                            height="250"
-                                            loading={index === 0 ? "eager" : "lazy"}
-                                            fetchpriority={index === 0 ? "high" : "low"}
-                                            style={{
-                                                width: '100%',
-                                                height: '100%',
-                                                objectFit: 'cover',
-                                                objectPosition: 'center',
-                                                display: 'block',
-                                            }}
-                                        />
-                                    </Box>
-                                </Link>
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
-                )}
+            <Box className="slider-container" sx={{ width: '100%', mb: { xs: -2, sm: -3, md: -4, lg: -6 } }}>
+                <Swiper
+                    modules={[Autoplay, Navigation]}
+                    spaceBetween={0}
+                    slidesPerView={1}
+                    autoplay={{ delay: 5000, disableOnInteraction: false }}
+                    navigation
+                    loop
+                    grabCursor
+                    className="home-slider"
+                >
+                    {slides.map(({ img, path }, index) => (
+                        <SwiperSlide key={index}>
+                            <Link to={path}>
+                                <Box sx={{ width: '100%', aspectRatio: '970 / 250', overflow: 'hidden' }}>
+                                    <img
+                                        src={img}
+                                        alt={`Slide ${index + 1}`}
+                                        width="970"
+                                        height="250"
+                                        loading={index === 0 ? "eager" : "lazy"}
+                                        fetchpriority={index === 0 ? "high" : "low"}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover',
+                                            objectPosition: 'center',
+                                            display: 'block',
+                                        }}
+                                    />
+                                </Box>
+                            </Link>
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
             </Box>
 
             <Suspense fallback={null}>
