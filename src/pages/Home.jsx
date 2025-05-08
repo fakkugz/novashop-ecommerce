@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, lazy, Suspense } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import 'swiper/css';
@@ -6,8 +6,8 @@ import 'swiper/css/navigation';
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import CategoriesComp from "../components/CategoriesComp";
-import SimpleProductSlider from "../components/SimpleProductSlider";
+const SimpleProductSlider = lazy(() => import("../components/SimpleProductSlider"));
+const CategoriesComp = lazy(() => import("../components/CategoriesComp"));
 import { ShopContext } from "../contexts/ShopContext";
 import { Link } from "react-router-dom";
 
@@ -93,8 +93,13 @@ const Home = () => {
                 )}
             </Box>
 
-            <SimpleProductSlider products={allProducts} />
-            <CategoriesComp />
+            <Suspense fallback={null}>
+                <SimpleProductSlider products={allProducts} />
+            </Suspense>
+
+            <Suspense fallback={null}>
+                <CategoriesComp />
+            </Suspense>
 
             <Typography
                 variant="h5"
@@ -110,7 +115,9 @@ const Home = () => {
                 RECOMMENDED FOR YOU
             </Typography>
 
-            <SimpleProductSlider categories={["electronics", "men's clothing"]} />
+            <Suspense fallback={null}>
+                <SimpleProductSlider categories={["electronics", "men's clothing"]} />
+            </Suspense>
         </Box>
     );
 };
