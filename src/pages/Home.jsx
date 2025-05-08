@@ -35,25 +35,39 @@ const Home = () => {
     return (
         <Box className="home-container" sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <Box className="slider-container" sx={{ width: '100%', aspectRatio: '970 / 250', mb: { xs: -2, sm: -3, md: -4, lg: -6 } }}>
-                <Link to={slides[0].path}>
-                    <Box sx={{ width: '100%', aspectRatio: '970 / 250', overflow: 'hidden' }}>
-                        <img
-                            src={slides[0].img}
-                            alt="Slide 1"
-                            fetchpriority="high"
-                            loading="eager"
-                            width="970"
-                            height="250"
-                            style={{
+                {!showSwiper && (
+                    <Link to={slides[0].path}>
+                        <Box
+                            sx={{
                                 width: '100%',
-                                height: '100%',
-                                objectFit: 'cover',
-                                objectPosition: 'center',
-                                display: 'block',
+                                aspectRatio: '970 / 250',
+                                overflow: 'hidden',
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                zIndex: 1,
+                                WebkitMaskImage: 'linear-gradient(black 80%, transparent)',
+                                maskImage: 'linear-gradient(black 80%, transparent)',
                             }}
-                        />
-                    </Box>
-                </Link>
+                        >
+                            <img
+                                src={slides[0].img}
+                                alt="Slide 1"
+                                fetchpriority="high"
+                                loading="eager"
+                                width="970"
+                                height="250"
+                                style={{
+                                    width: '100%',
+                                    height: '100%',
+                                    objectFit: 'cover',
+                                    objectPosition: 'center',
+                                    display: 'block',
+                                }}
+                            />
+                        </Box>
+                    </Link>
+                )}
                 {showSwiper && (
                     <Swiper
                         modules={[Autoplay, Navigation]}
@@ -91,6 +105,7 @@ const Home = () => {
                         ))}
                     </Swiper>
                 )}
+
             </Box>
 
             <Suspense fallback={null}>

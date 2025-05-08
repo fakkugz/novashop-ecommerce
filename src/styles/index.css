@@ -111,6 +111,11 @@ button:hover {
   right: 10px;
 }
 
+.home-slider {
+  mask-image: linear-gradient(black 80%, transparent);
+  -webkit-mask-image: linear-gradient(black 80%, transparent);
+}
+
 .home-slider .swiper-button-prev::after,
 .home-slider .swiper-button-next::after {
   color: white !important;
