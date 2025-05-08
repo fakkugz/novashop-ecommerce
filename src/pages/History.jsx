@@ -5,9 +5,10 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import ItemCard from "../components/ItemCard";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import { Autoplay, Navigation } from "swiper/modules";
 
 const History = () => {
     const { lastPurchased, favorites, lastVisited } = useContext(ShopContext);
@@ -22,28 +23,22 @@ const History = () => {
 
                 const validProducts = products || [];
 
-                const settings = {
-                    dots: true,
-                    infinite: false,
-                    speed: 500,
-                    slidesToShow: Math.min(validProducts.length, 4),
-                    slidesToScroll: 3,
-                    responsive: [
-                        {
-                            breakpoint: 1024,
-                            settings: {
-                                slidesToShow: Math.min(validProducts.length, 3),
-                                slidesToScroll: 1,
-                            },
-                        },
-                        {
-                            breakpoint: 600,
-                            settings: {
-                                slidesToShow: Math.min(validProducts.length, 2),
-                                slidesToScroll: 1,
-                            },
-                        },
-                    ],
+                const swiperSettings = {
+                    modules: [Navigation, Autoplay],
+                    spaceBetween: 10,
+                    slidesPerView: 4,
+                    navigation: true,
+                    autoplay: { delay: 3000, disableOnInteraction: false },
+                    grabCursor: true,
+                    simulateTouch: true,
+                    touchRatio: 1.5,
+                    touchStartPreventDefault: false,
+                    breakpoints: {
+                        0: { slidesPerView: 2 },
+                        600: { slidesPerView: 3 },
+                        900: { slidesPerView: 4 },
+                        1200: { slidesPerView: 4 },
+                    }
                 };
 
                 return (
@@ -57,8 +52,9 @@ const History = () => {
                             mt: index === 0 ? 0 : 3,
                             maxWidth: "1200px",
                             height: {
-                                xs: validProducts.length > 0 ? '425px' : '120px',
-                                sm: validProducts.length > 0 ? '540px' : '130px',
+                                xs: validProducts.length > 0 ? '420px' : '120px',
+                                sm: validProducts.length > 0 ? '480px' : '130px',
+                                md: validProducts.length > 0 ? '540px' : '130px',
                               },
                             mx: "auto",
                             transition: "height 0.5s ease-in-out",
@@ -70,27 +66,25 @@ const History = () => {
                         </Typography>
 
                         {validProducts.length > 0 ? (
-                            <Box className='history-slider' sx={{ px: 2 }}>
-                                <Slider {...settings}>
+                            <Box sx={{ px: 2 }}>
+                                <Swiper {...swiperSettings}>
                                     {validProducts.map((product) => (
-                                        <Box
-                                            key={product.id}
-                                            sx={{ display: "flex", justifyContent: "center" }}
-                                        >
-                                            <Box
-                                                sx={{
-                                                    transform: { xs: "scale(0.8)", md: "scale(0.85)" }
-                                                }}>
-                                                <ItemCard
-                                                    {...product}
-                                                    rate={product.rating?.rate}
-                                                    sx={{ boxShadow: '3px 3px 3px rgba(0, 0, 0, 0.2)',
-                                                          width: {xs: '170px', sm: '220px'}
-                                                    }} />
+                                        <SwiperSlide key={product.id}>
+                                            <Box sx={{ display: "flex", justifyContent: "center" }}>
+                                                <Box sx={{ transform: { xs: "scale(0.8)", md: "scale(0.85)" } }}>
+                                                    <ItemCard
+                                                        {...product}
+                                                        rate={product.rating?.rate}
+                                                        sx={{
+                                                            boxShadow: '3px 3px 3px rgba(0, 0, 0, 0.2)',
+                                                            width: { xs: '170px', sm: '220px' }
+                                                        }}
+                                                    />
+                                                </Box>
                                             </Box>
-                                        </Box>
+                                        </SwiperSlide>
                                     ))}
-                                </Slider>
+                                </Swiper>
                             </Box>
                         ) : (
                             <Typography variant="body2" sx={{ color: "white", mt: 7 }}>
@@ -100,7 +94,6 @@ const History = () => {
                     </Paper>
                 );
             })}
-
         </Container>
     );
 };
