@@ -42,6 +42,9 @@ const Home = () => {
                 src={slides[0].img}
                 alt="Slide 1"
                 fetchpriority="high"
+                loading="eager"
+                width="970"
+                height="250"
                 style={{
                   width: '100%',
                   height: 'auto',
