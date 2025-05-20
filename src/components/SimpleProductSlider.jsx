@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -12,14 +11,15 @@ import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import { Link } from "react-router-dom";
-import { ShopContext } from "../contexts/ShopContext";
+import { useSelector } from 'react-redux';
 
 const SimpleProductSlider = ({ products, categories }) => {
-    const { allProducts } = useContext(ShopContext);
+
+    const allProducts = useSelector(state => state.products.allProducts);
 
     const filteredProducts = categories?.length
         ? allProducts.filter((product) => categories.includes(product.category))
-        : products;
+        : (products || []);
 
     if (allProducts.length === 0) {
         return (

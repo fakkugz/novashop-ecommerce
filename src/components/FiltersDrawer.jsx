@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -24,81 +24,82 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import CloseIcon from '@mui/icons-material/Close';
 
-import { ShopContext } from '../contexts/ShopContext';
 import { useLocation } from 'react-router-dom';
+import { setActiveFilters, setShowOnlyFavorites, setPriceFilter, setRateFilter, setMin, setMax, setRateRange } from '../features/filtersSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 
 const FiltersDrawer = () => {
 
+    const dispatch = useDispatch();
+
     const [open, setOpen] = useState(false);
 
-    const { categories, activeFilters, setActiveFilters,
-        priceFilter, setPriceFilter, rateFilter, setRateFilter,
-        min, setMin, max, setMax, rateRange, setRateRange,
-        showOnlyFavorites, setShowOnlyFavorites } = useContext(ShopContext);
+    const categories = useSelector(state => state.products.categories);
+    const { activeFilters, priceFilter, rateFilter,
+        min, max, rateRange, showOnlyFavorites } = useSelector(state => state.filters);
 
-    const location = useLocation(); 
-    const params = new URLSearchParams(location.search);
+    const location = useLocation();
 
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
         const categoryParam = searchParams.get("category");
+
         if (categoryParam) {
             const categoriesFromUrl = categoryParam.split(",");
-            setActiveFilters(prevFilters => 
-                JSON.stringify(prevFilters) === JSON.stringify(categoriesFromUrl) ? prevFilters : categoriesFromUrl
-            );
+            const updatedFilters =
+                JSON.stringify(activeFilters) === JSON.stringify(categoriesFromUrl)
+                    ? activeFilters
+                    : categoriesFromUrl;
+
+            dispatch(setActiveFilters(updatedFilters));
         } else {
-            setActiveFilters(prevFilters => prevFilters.length === 0 ? prevFilters : []);
+            const resetFilters = activeFilters.length === 0 ? activeFilters : [];
+            dispatch(setActiveFilters(resetFilters));
         }
-    }, [location.search]);
+    }, [dispatch, location.search]);
 
     const handleClick = () => {
         setOpen(!open);
     };
 
     const handleToggleCheck = (cat) => {
-        setActiveFilters((prevFilters) => {
-            if (prevFilters.includes(cat)) {
-                return prevFilters.filter(c => c !== cat);
-            } else {
-                return [...prevFilters, cat];
-            }
-        });
+        const updatedFilters = activeFilters.includes(cat) ? activeFilters.filter(c => c !== cat) : [...activeFilters, cat];
+        dispatch(setActiveFilters((updatedFilters)));
     };
 
     const handleApply = () => {
         const minValue = min === '' ? 0 : Number(min);
         const maxValue = max === '' ? Infinity : Number(max);
-        setPriceFilter({ min: minValue, max: maxValue });
+        dispatch(setPriceFilter({ min: minValue, max: maxValue }));
     };
 
     const handleRateChange = (event, newValue) => {
-        setRateRange(newValue);
-        setRateFilter({
+        dispatch(setRateRange(newValue));
+        dispatch(setRateFilter({
             min: newValue[0],
             max: newValue[1]
-        });
+        }));
     };
 
     const handleResetFilters = () => {
-        setMin('');
-        setMax('');
-        setRateRange([1, 5]);
-        setActiveFilters([]);
-        setPriceFilter({ min: 0, max: Infinity });
-        setRateFilter({ min: 1, max: 5 });
-        setShowOnlyFavorites(false);
+        dispatch(setMin(''));
+        dispatch(setMax(''));
+        dispatch(setRateRange([1, 5]));
+        dispatch(setActiveFilters([]));
+        dispatch(setPriceFilter({ min: 0, max: Infinity }));
+        dispatch(setRateFilter({ min: 1, max: 5 }));
+        dispatch(setShowOnlyFavorites(false));
     };
 
 
     return (
         <Box
             sx={{
-                backgroundColor: '#1b1b1b', 
+                backgroundColor: '#1b1b1b',
                 color: 'white',
                 height: 'auto',
-                p: {xs: 1, sm: 2},
+                p: { xs: 1, sm: 2 },
                 borderRadius: '5px',
                 minHeight: { xs: '100%', sm: 'auto' }
             }}
@@ -125,7 +126,7 @@ const FiltersDrawer = () => {
                             alignItems: 'center'
                         }}>
                             De ${priceFilter.min} a ${priceFilter.max}
-                            <IconButton sx={{ padding: '0' }} onClick={() => setPriceFilter({ min: 0, max: Infinity })}>
+                            <IconButton sx={{ padding: '0' }} onClick={() => dispatch(setPriceFilter({ min: 0, max: Infinity }))}>
                                 <CloseIcon sx={{ fontSize: 16, color: 'gray' }} />
                             </IconButton>
                         </Box>
@@ -146,7 +147,7 @@ const FiltersDrawer = () => {
                                 }} key={cat}>
                                     {cat}
                                     <IconButton sx={{ padding: '0' }}
-                                        onClick={() => setActiveFilters(activeFilters.filter(c => c !== cat))}>
+                                        onClick={() => dispatch(setActiveFilters(activeFilters.filter(c => c !== cat)))}>
                                         <CloseIcon sx={{ fontSize: 16, color: 'gray' }} />
                                     </IconButton>
                                 </Box>
@@ -165,21 +166,21 @@ const FiltersDrawer = () => {
                             alignItems: 'center'
                         }}>
                             Rate: {rateFilter.min} a {rateFilter.max}
-                            <IconButton sx={{ padding: '0' }} onClick={() => setRateFilter({ min: 1, max: 5 })}>
+                            <IconButton sx={{ padding: '0' }} onClick={() => dispatch(setRateFilter({ min: 1, max: 5 }))}>
                                 <CloseIcon sx={{ fontSize: 16, color: 'gray' }} />
                             </IconButton>
                         </Box>
                 }
             </Stack>
 
-            <Divider sx={{ mb: 2, bgcolor: 'grey.500' }}/>
+            <Divider sx={{ mb: 2, bgcolor: 'grey.500' }} />
             <List>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', pl: 2, mb: 2 }}>
                     <FavoriteIcon sx={{ color: showOnlyFavorites ? 'secondary.main' : 'white', mr: 1, transition: 'all 0.3s ease-in-out', }} />
                     <Typography>Only Favorites</Typography>
                     <Switch
                         checked={showOnlyFavorites}
-                        onChange={() => setShowOnlyFavorites(!showOnlyFavorites)}
+                        onChange={() => dispatch(setShowOnlyFavorites(!showOnlyFavorites))}
                     />
                 </Box>
                 <ListItem>
@@ -194,7 +195,7 @@ const FiltersDrawer = () => {
                         type="number"
                         size="small"
                         value={min}
-                        onChange={(e) => setMin(e.target.value)}
+                        onChange={(e) => dispatch(setMin(e.target.value))}
                         sx={{
                             '& .MuiOutlinedInput-root': {
                                 padding: '2px',
@@ -227,7 +228,7 @@ const FiltersDrawer = () => {
                         type="number"
                         size="small"
                         value={max}
-                        onChange={(e) => setMax(e.target.value)}
+                        onChange={(e) => dispatch(setMax(e.target.value))}
                         sx={{
                             '& .MuiOutlinedInput-root': {
                                 padding: '2px',
@@ -300,7 +301,7 @@ const FiltersDrawer = () => {
                         justifyContent: 'center',
                         width: '85%',
                         paddingLeft: 5,
-                        backgroundColor: '#1b1b1b' 
+                        backgroundColor: '#1b1b1b'
                     }}
                 >
                     <Slider
@@ -321,11 +322,12 @@ const FiltersDrawer = () => {
                     variant="outlined"
                     color="white"
                     onClick={handleResetFilters}
-                    sx={{ mt: 3, mb: 3, width: '85%',
+                    sx={{
+                        mt: 3, mb: 3, width: '85%',
                         '&:hover': {
-                            borderColor: 'primary.main', 
+                            borderColor: 'primary.main',
                         },
-                     }}
+                    }}
                 >
                     Clean Filters
                 </Button>

@@ -14,70 +14,74 @@ import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/material/styles';
 import Favorite from '@mui/icons-material/Favorite';
 import ArrowBack from '@mui/icons-material/ArrowBack';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ShopContext } from '../contexts/ShopContext';
 import AddedToCart from '../components/AddedToCart';
-import { AuthContext } from '../contexts/AuthContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { setFavorites } from '../features/filtersSlice';
+import { addToCart } from '../features/cartSlice';
+import { updateLastVisited } from '../features/historySlice';
+import { setLastAddedProduct, setAddToCartOpenModal } from "../features/uiSlice";
 
 
 const ProductDetails = () => {
 
-    const { id } = useParams();
-    const { allProducts, addToCart, addToCartOpenModal, setAddToCartOpenModal,
-            lastAddedProduct, setLastAddedProduct, updateLastVisited,
-            favorites, setFavorites } = useContext(ShopContext);
+    const navigate = useNavigate();
+    const theme = useTheme();
+    const dispatch = useDispatch();
 
-    const { isAuthenticated } = useContext(AuthContext);
+    const { id } = useParams();
+
+    const allProducts = useSelector(state => state.products.allProducts);
+    const favorites = useSelector(state => state.filters.favorites);
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
     const product = allProducts.find(product => product.id === Number(id));
 
     const [openDialog, setOpenDialog] = useState(false);
 
-    const navigate = useNavigate();
-    const theme = useTheme();
-
     useEffect(() => {
         window.scrollTo(0, 0);
         if (product) {
-            updateLastVisited(product);
+            dispatch(updateLastVisited(product));
         }
-      }, []);
+    }, [dispatch]);
 
-      const handleAddToCart = (product) => {
-        addToCart(product);
-        setLastAddedProduct(product)
-        setAddToCartOpenModal(true);
+    const handleAddToCart = (product) => {
+        dispatch(addToCart(product));
+        dispatch(setLastAddedProduct(product));
+        dispatch(setAddToCartOpenModal(true));
     };
 
     const handleDialogClose = () => {
         setOpenDialog(false);
-      };
+    };
 
     const isFavorite = favorites.some(fav => fav.id === product.id);
 
     const toggleFavorite = () => {
         if (isAuthenticated) {
-            if (isFavorite) {
-                setFavorites(favorites.filter(fav => fav.id !== Number(id)));
-            } else {
-                setFavorites([...favorites, product]);
-            }
+            dispatch(setFavorites(
+                isFavorite
+                    ? favorites.filter(fav => fav.id !== Number(id))
+                    : [...favorites, product]
+            ));
         } else {
             setOpenDialog(true);
         }
     };
 
+
     if (!product) {
         return (
-          <section className="task-details">
-            <p>No se encontró el producto con ID: {id}</p>
-            <Link to="/shop">
-              <button className="btn-back">VOLVER</button>
-            </Link>
-          </section>
+            <section className="product-details">
+                <p>No se encontró el producto con ID: {id}</p>
+                <Link to="/shop">
+                    <button className="btn-back">VOLVER</button>
+                </Link>
+            </section>
         );
-    };
+    }
 
     return (
         <Box sx={{
@@ -87,7 +91,7 @@ const ProductDetails = () => {
             alignItems: 'center',
             gap: 1,
             p: { xs: 2, md: 1 },
-            }}>
+        }}>
             <Button
                 sx={{ alignSelf: 'center', ml: 4, color: 'white' }}
                 onClick={() => navigate(-1)}
@@ -98,27 +102,27 @@ const ProductDetails = () => {
                 </Typography>
             </Button>
             <Grid container spacing={3} sx={{
-                                        width: '100%',
-                                        maxWidth: '1200px',
-                                        background: 'rgb(27, 27, 27)',
-                                        border: '1px solid rgba(255, 255, 255, 0.67)',
-                                        borderRadius: '10px',
-                                        boxShadow: '1px 1px 3px rgba(255, 255, 255, 0.47)',
-                                        p: { xs: 2, md: 5 },
-                                        }}>
+                width: '100%',
+                maxWidth: '1200px',
+                background: 'rgb(27, 27, 27)',
+                border: '1px solid rgba(255, 255, 255, 0.67)',
+                borderRadius: '10px',
+                boxShadow: '1px 1px 3px rgba(255, 255, 255, 0.47)',
+                p: { xs: 2, md: 5 },
+            }}>
                 <Grid size={{ xs: 12, md: 6 }}>
                     {/* Imagen */}
                     <Box sx={{
-                            background: 'white',
-                            height: { xs: '400px', md: '510px' },
-                            borderRadius: '5px',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            overflow: 'hidden',
-                            position: 'relative',
-                            p: 1,
-                            }}>
+                        background: 'white',
+                        height: { xs: '400px', md: '510px' },
+                        borderRadius: '5px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        overflow: 'hidden',
+                        position: 'relative',
+                        p: 1,
+                    }}>
                         <IconButton
                             onClick={toggleFavorite}
                             sx={{
@@ -133,10 +137,10 @@ const ProductDetails = () => {
                                 sx={{
                                     color: isFavorite ? 'secondary.main' : 'white',
                                     opacity: 0.7,
-                                    '&:hover' : {
+                                    '&:hover': {
                                         opacity: 1
                                     }
-                                    }} />
+                                }} />
                         </IconButton>
                         <CardMedia
                             component="img"
@@ -150,30 +154,30 @@ const ProductDetails = () => {
                 <Grid size={{ xs: 12, md: 6 }}>
                     {/* Detalles */}
                     <Card sx={{
-                            height: { xs: 'auto', md: '524px' },
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'space-between',
-                            background: '#1b1b1b',
-                            border: '1px solid rgba(255,255,255,0.15)',
-                            boxShadow: 'inset 0 0 6px rgba(255,255,255,0.05)',
-                            color: 'white',
-                            }}>
+                        height: { xs: 'auto', md: '524px' },
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                        background: '#1b1b1b',
+                        border: '1px solid rgba(255,255,255,0.15)',
+                        boxShadow: 'inset 0 0 6px rgba(255,255,255,0.05)',
+                        color: 'white',
+                    }}>
                         <CardContent sx={{ p: { xs: 2, md: 3 }, flexGrow: 1 }}>
                             <Typography variant="h4" gutterBottom>
                                 {product.title}
                             </Typography>
-                            <Divider sx={{ mb: 2, bgcolor: 'grey.500' }}/>
+                            <Divider sx={{ mb: 2, bgcolor: 'grey.500' }} />
                             <Typography variant="h3" component="p" sx={{ mb: 2 }}>
                                 $ {product.price}
                             </Typography>
                             <Box
                                 sx={{
-                                display: 'flex',
-                                flexDirection: { xs: 'column', sm: 'row' },
-                                gap: 2,
-                                justifyContent: 'space-between',
-                                mb: 3,
+                                    display: 'flex',
+                                    flexDirection: { xs: 'column', sm: 'row' },
+                                    gap: 2,
+                                    justifyContent: 'space-between',
+                                    mb: 3,
                                 }}
                             >
                                 <Button
@@ -181,7 +185,7 @@ const ProductDetails = () => {
                                     size="large"
                                     fullWidth={true}
                                     onClick={() => {
-                                        addToCart(product);
+                                        dispatch(addToCart(product));
                                         navigate('/cart');
                                     }}
                                     sx={{
@@ -207,16 +211,16 @@ const ProductDetails = () => {
                                         color: 'secondary.main',
                                         border: `2px solid ${theme.palette.secondary.main}`,
                                         '&:hover': {
-                                        backgroundColor: 'rgba(25, 118, 210, 0.4)',
-                                        borderColor: '#4fc3f7',
-                                        color: '#FF5121'
+                                            backgroundColor: 'rgba(25, 118, 210, 0.4)',
+                                            borderColor: '#4fc3f7',
+                                            color: '#FF5121'
                                         },
                                     }}
                                 >
                                     Add to cart
                                 </Button>
                             </Box>
-                            <Divider sx={{ mb: 2 }}/>
+                            <Divider sx={{ mb: 2 }} />
                             <Typography variant="body1" color="rgb(233, 233, 233)">
                                 {product.description}
                             </Typography>
@@ -235,9 +239,7 @@ const ProductDetails = () => {
                 </Typography>
             </Button>
             <AddedToCart
-                open={addToCartOpenModal}
-                product={lastAddedProduct}
-                onClose={() => setAddToCartOpenModal(false)}
+                onClose={() => dispatch(setAddToCartOpenModal(false))}
             />
             <Dialog open={openDialog}>
                 <DialogTitle>Login Required</DialogTitle>

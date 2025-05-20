@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -12,34 +12,47 @@ import Lock from '@mui/icons-material/Lock';
 import Person from '@mui/icons-material/Person';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import { AuthContext } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { login } from '../features/authSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { setIsAuthenticated, setError } from '../features/authSlice';
 
 
 const Login = () => {
-    const { login, error, setError } = useContext(AuthContext);
+
+    const dispatch = useDispatch();
+
+    const error = useSelector(state => state.auth.error);
     const [email, setEmail] = useState('johndoe123@novashop.com');
     const [password, setPassword] = useState('password123');
     const [showPassword, setShowPassword] = useState(false);
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const isAuth = localStorage.getItem("isAuthenticated") === "true";
+        if (isAuth) {
+            dispatch(setIsAuthenticated(true));
+        }
+    }, []);
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        login(email, password);
-        if (localStorage.getItem("isAuthenticated") === "true") {
+        const success = dispatch(login(email, password));
+        if (success) {
             navigate("/shop");
         }
     };
 
     const handleChangeEmail = (e) => {
         setEmail(e.target.value);
-        if (error) setError(false);
+        if (error) dispatch(setError(false));
     };
 
     const handleChangePassword = (e) => {
         setPassword(e.target.value);
-        if (error) setError(false);
+        if (error) dispatch(setError(false));
     };
 
     return (

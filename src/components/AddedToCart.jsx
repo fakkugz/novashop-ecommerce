@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -7,13 +6,19 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Link } from 'react-router-dom';
-import { ShopContext } from '../contexts/ShopContext';
+import { useSelector, useDispatch } from 'react-redux';
+import { setAddToCartOpenModal } from '../features/uiSlice';
 
 
-const AddedToCart = () => {  
+const AddedToCart = () => {
 
-    const { addToCartOpenModal, lastAddedProduct, handleCloseModal} = useContext(ShopContext);
+    const dispatch = useDispatch();
 
+    const { lastAddedProduct, addToCartOpenModal } = useSelector(state => state.ui);
+
+    const handleCloseModal = () => {
+        dispatch(setAddToCartOpenModal(false))
+    }
 
     return (
         <Dialog open={addToCartOpenModal} onClose={handleCloseModal}>
@@ -28,7 +33,7 @@ const AddedToCart = () => {
                 <Button onClick={handleCloseModal} sx={{ color: "#FF4511" }}>
                     Continue Shopping
                 </Button>
-                <Link to="/cart" style={{ textDecoration: 'none' }}>
+                <Link to="/cart" onClick={handleCloseModal} style={{ textDecoration: 'none' }}>
                     <Button color="primary" variant="contained">
                         View Cart
                     </Button>

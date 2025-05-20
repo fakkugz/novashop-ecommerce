@@ -1,5 +1,4 @@
-import { useContext, useState, useEffect } from "react";
-import { AuthContext } from "../contexts/AuthContext";
+import { useState, useEffect } from "react";
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
@@ -9,13 +8,17 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Grid from '@mui/material/Grid';
 import { Link, useNavigate } from "react-router-dom";
-import { ShopContext } from "../contexts/ShopContext";
-
+import { useSelector, useDispatch } from "react-redux";
+import { updateLastPurchased } from "../features/historySlice";
+import { clearCart } from "../features/cartSlice";
 
 const Checkout = () => {
-  const { user } = useContext(AuthContext);
-  const { updateLastPurchased } = useContext(ShopContext);
-  const [shippingAddress, setShippingAddress] = useState(user.address);
+
+  const dispatch = useDispatch();
+
+  const user = useSelector(state => state.auth.user);
+  const address = useSelector(state => state.auth.user.address)
+  const [shippingAddress, setShippingAddress] = useState(address);
   const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
 
@@ -29,7 +32,8 @@ const Checkout = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    updateLastPurchased();
+    dispatch(updateLastPurchased());
+    dispatch(clearCart());
     setOpenModal(true);
   };
 

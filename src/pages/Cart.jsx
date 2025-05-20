@@ -10,29 +10,29 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Grid from '@mui/material/Grid';
-import { Link, useNavigate } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { useContext, useState, useEffect } from 'react';
-import { ShopContext } from '../contexts/ShopContext';
-import { AuthContext } from '../contexts/AuthContext';
+
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeFromCart, updateQuantity, clearCart } from '../features/cartSlice'
+import { formatPrice } from '../utils/formatPrice';
 
 export default function Cart() {
-    const { cart, removeFromCart, updateQuantity, formatPrice, handleCloseModal, clearCart } = useContext(ShopContext);
-    const { isAuthenticated } = useContext(AuthContext);
-    const [open, setOpen] = useState(false);
-
-    useEffect(() => {
-        return () => {
-            handleCloseModal();
-        };
-    }, []);
-
-    const shippingPrice = 500;
 
     const navigate = useNavigate();
+
+    const dispatch = useDispatch();
+
+    const cart = useSelector(state => state.cart.cart);
+
+    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+    const [open, setOpen] = useState(false);
+
+    const shippingPrice = 500;
 
     const calculateSubtotal = () => formatPrice(cart.reduce((total, item) => total + item.price * item.quantity, 0));
 
@@ -47,7 +47,7 @@ export default function Cart() {
     };
 
     const handleConfirmCleanCart = () => {
-        clearCart();
+        dispatch(clearCart());
         setOpen(false);
     };
 
@@ -118,7 +118,7 @@ export default function Cart() {
                                 >
                                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
                                         <IconButton
-                                            onClick={() => removeFromCart(product.id)}
+                                            onClick={() => dispatch(removeFromCart(product.id))}
                                             sx={{
                                                 color: 'white',
                                                 p: 0.5,
@@ -135,7 +135,8 @@ export default function Cart() {
                                             <DeleteForeverIcon />
                                         </IconButton>
 
-                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, cursor: 'pointer' }}
+                                             onClick={() => navigate(`/shop/products/${product.id}`)}>
                                             <Box sx={{
                                                 bgcolor: 'white',
                                                 display: 'flex',
@@ -177,7 +178,7 @@ export default function Cart() {
                                             <Button
                                                 variant="outlined"
                                                 size="small"
-                                                onClick={() => updateQuantity(product.id, product.quantity - 1)}
+                                                onClick={() => dispatch(updateQuantity({ productId: product.id, quantity: product.quantity - 1 }))}
                                                 sx={{ p: 0, minWidth: 'auto' }}
                                             >
                                                 <RemoveIcon />
@@ -188,7 +189,7 @@ export default function Cart() {
                                             <Button
                                                 variant="outlined"
                                                 size="small"
-                                                onClick={() => updateQuantity(product.id, product.quantity + 1)}
+                                                onClick={() => dispatch(updateQuantity({ productId: product.id, quantity: product.quantity + 1 }))}
                                                 sx={{ p: 0, minWidth: 'auto' }}
                                             >
                                                 <AddIcon />
@@ -267,7 +268,7 @@ export default function Cart() {
             </Grid>
 
             <Link to="/">
-                <Button onClick={() => { handleCloseModal(); navigate(-1); }} sx={{ alignSelf: 'flex-start', ml: 4, color: 'white' }}>
+                <Button onClick={() => navigate(-1)} sx={{ alignSelf: 'flex-start', ml: 4, color: 'white' }}>
                     <ArrowBackIcon />
                     <Typography variant="body1" sx={{ marginLeft: 1 }}>
                         BACK

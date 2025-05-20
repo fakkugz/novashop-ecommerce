@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect, lazy, Suspense } from "react";
+import { useState, useEffect, lazy, Suspense } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import 'swiper/css';
@@ -8,16 +8,18 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 const SimpleProductSlider = lazy(() => import("../components/SimpleProductSlider"));
 const CategoriesComp = lazy(() => import("../components/CategoriesComp"));
-import { ShopContext } from "../contexts/ShopContext";
 import { Link } from "react-router-dom";
 
 import img1 from '../assets/images/1.webp';
 import img2 from '../assets/images/2.webp';
 import img3 from '../assets/images/3.webp';
 import img4 from '../assets/images/4.webp';
+import { useSelector } from "react-redux";
 
 const Home = () => {
-    const { allProducts } = useContext(ShopContext);
+
+    const allProducts = useSelector(state => state.products.allProducts)
+    
     const [showSwiper, setShowSwiper] = useState(false);
 
     const slides = [
@@ -53,7 +55,7 @@ const Home = () => {
                             <img
                                 src={slides[0].img}
                                 alt="Slide 1"
-                                fetchpriority="high"
+                                fetchPriority="high"
                                 loading="eager"
                                 width="970"
                                 height="250"
@@ -90,7 +92,7 @@ const Home = () => {
                                             width="970"
                                             height="250"
                                             loading={index === 0 ? "eager" : "lazy"}
-                                            fetchpriority={index === 0 ? "high" : "low"}
+                                            fetchPriority={index === 0 ? "high" : "low"}
                                             style={{
                                                 width: '100%',
                                                 height: '100%',

@@ -1,5 +1,4 @@
-import { useState, useEffect, useContext } from "react";
-import { ShopContext } from "../contexts/ShopContext";
+import { useState, useEffect } from "react";
 import Drawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -11,71 +10,61 @@ import Grid from '@mui/material/Grid';
 import ItemCard from "../components/ItemCard";
 import FiltersDrawer from "../components/FiltersDrawer";
 import AddedToCart from "../components/AddedToCart";
+import { useSelector, useDispatch } from 'react-redux';
+import { setFilteredProducts, setCurrentPage, selectCurrentProducts, selectTotalPages } from '../features/productsSlice';
+import { setLastAddedProduct, setAddToCartOpenModal } from "../features/uiSlice";
+import { applyFilters } from '../thunks/productThunk';
 
 
-const Shop = ({ loading }) => {
+const Shop = () => {
 
-    const { allProducts, favorites, showOnlyFavorites,
-            activeFilters, priceFilter, rateFilter,
-            filteredProducts, setFilteredProducts,
-            lastAddedProduct, setLastAddedProduct,
-            addToCartOpenModal, setAddToCartOpenModal,
-            currentPage, setCurrentPage,
-            productsPerPage, currentProducts  } = useContext(ShopContext);
+    const dispatch = useDispatch();
+
+    const { loading, allProducts, filteredProducts, currentPage, productsPerPage } = useSelector((state) => state.products);
+
+    const { favorites, showOnlyFavorites, activeFilters, priceFilter, rateFilter } = useSelector((state) => state.filters);
+
+    const currentProducts = useSelector(selectCurrentProducts);
+    const totalPages = useSelector(selectTotalPages);
+
+
+    useEffect(() => {
+        dispatch(setFilteredProducts(allProducts));
+    }, [dispatch, allProducts]);
 
     const [mobileOpen, setMobileOpen] = useState(false);
 
-    const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
-    
     useEffect(() => {
         window.scrollTo(0, 0);
-        setCurrentPage(1);
-      }, []);
-           
-      const handlePageChange = (event, value) => {
-        setCurrentPage(value);
+        dispatch(setCurrentPage(1));
+    }, [dispatch]);
+
+    const handlePageChange = (event, value) => {
+        dispatch(setCurrentPage(value));
         window.scrollTo(0, 0);
     };
-    
-    useEffect(() => {
-        let filtered = allProducts;
 
-        if (activeFilters.length > 0) {
-          filtered = filtered.filter(p => activeFilters.includes(p.category));
-        }
-      
-        if (priceFilter.min !== null && priceFilter.max !== null) {
-          filtered = filtered.filter(p => p.price >= priceFilter.min && p.price <= priceFilter.max);
-        }
-      
-        if (rateFilter.min !== null && rateFilter.max !== null) {
-          filtered = filtered.filter(p => p.rating.rate >= rateFilter.min && p.rating.rate <= rateFilter.max);
-        }
-      
-        if (showOnlyFavorites) {
-          const favTitles = favorites.map(f => f.title);
-          filtered = filtered.filter(p => favTitles.includes(p.title));
-        }
-      
-        setFilteredProducts(filtered);
-      }, [allProducts, activeFilters, priceFilter, rateFilter, showOnlyFavorites, favorites]);
-      
     useEffect(() => {
-    if (filteredProducts.length === 0 || currentPage > Math.ceil(filteredProducts.length / productsPerPage)) {
-        setCurrentPage(1);
-    }
-    }, [filteredProducts, currentPage, productsPerPage]);
+        dispatch(applyFilters());
+    }, [dispatch, allProducts, activeFilters, priceFilter, rateFilter, showOnlyFavorites, favorites]);
+
+    useEffect(() => {
+        const maxPage = Math.ceil(filteredProducts.length / productsPerPage);
+        if (currentPage > maxPage && maxPage > 0) {
+            dispatch(setCurrentPage(1));
+        }
+    }, [dispatch, filteredProducts, currentPage, productsPerPage]);
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
 
     const handleAddToCartSuccess = (product) => {
-        setLastAddedProduct(product);
-        setAddToCartOpenModal(true);
-      };
+        dispatch(setLastAddedProduct(product));
+        dispatch(setAddToCartOpenModal(true));
+    };
 
-      if (loading) {
+    if (loading) {
         return (
             <Box sx={{ p: 6 }}>
                 <Grid container spacing={2}>
@@ -83,10 +72,10 @@ const Shop = ({ loading }) => {
                         <Grid size={{ xs: 6, md: 3 }} key={index}>
                             <Box sx={{ padding: 0 }}>
                                 <Skeleton variant="rectangular"
-                                          width="100%"
-                                          height={500}
-                                          animation="wave"
-                                          sx={{ bgcolor: 'rgb(59, 59, 59)' }}/>
+                                    width="100%"
+                                    height={500}
+                                    animation="wave"
+                                    sx={{ bgcolor: 'rgb(59, 59, 59)' }} />
                             </Box>
                         </Grid>
                     ))}
@@ -96,7 +85,7 @@ const Shop = ({ loading }) => {
     }
 
     return (
-        <Box sx={{ p: {xs: 3, sm: 6} }}>
+        <Box sx={{ p: { xs: 3, sm: 6 } }}>
             {/* Botón para abrir Drawer en mobile */}
             <Box sx={{ display: { xs: 'block', md: 'none' }, mb: 2 }}>
                 <Button
@@ -117,16 +106,16 @@ const Shop = ({ loading }) => {
 
                 {/* Productos */}
                 <Grid size={{ xs: 12, md: 9 }}>
-                    
+
                     <Grid container spacing={2} key={activeFilters.join('-')} >
                         {loading ? (
-                                [...Array(6)].map((_, index) => (
-                                    <Grid size={{ xs: 6, sm: 4 }} key={index}>
-                                        <Box sx={{ padding: 2 }}>
-                                            <Skeleton variant="rectangular" width="100%" height={200} />
-                                        </Box>
-                                    </Grid>
-                                ))
+                            [...Array(6)].map((_, index) => (
+                                <Grid size={{ xs: 6, sm: 4 }} key={index}>
+                                    <Box sx={{ padding: 2 }}>
+                                        <Skeleton variant="rectangular" width="100%" height={200} />
+                                    </Box>
+                                </Grid>
+                            ))
                         ) : currentProducts.length > 0 ? (
                             currentProducts.map((i) => (
                                 <Grid size={{ xs: 6, sm: 4 }} key={i.id} sx={{
@@ -149,10 +138,13 @@ const Shop = ({ loading }) => {
                         ) : (
                             <Typography
                                 variant="h5"
+                                align="center"
                                 sx={{
+                                    width: '100%',
                                     color: 'gray',
                                     fontStyle: 'italic',
-                                    fontWeight: 500
+                                    fontWeight: 500,
+                                    mt: 5
                                 }}
                             >
                                 No products found
@@ -175,18 +167,18 @@ const Shop = ({ loading }) => {
                                 color: 'white',
                             },
                             '& .Mui-selected': {
-                                backgroundColor: 'primary.main', 
-                                color: 'white', 
-                                border: '1px solid white', 
-                                outline: 'none', 
+                                backgroundColor: 'primary.main',
+                                color: 'white',
+                                border: '1px solid white',
+                                outline: 'none',
                             },
                             '& .MuiPaginationItem-root:focus': {
-                                outline: 'none', 
+                                outline: 'none',
                             },
                         }}
                     />
                 </Box>
-            
+
             )}
 
             {/* Drawer en mobile */}
@@ -205,8 +197,6 @@ const Shop = ({ loading }) => {
                 <FiltersDrawer />
             </Drawer>
             <AddedToCart
-                open={addToCartOpenModal}
-                product={lastAddedProduct}
                 onClose={() => setAddToCartOpenModal(false)}
             />
         </Box>

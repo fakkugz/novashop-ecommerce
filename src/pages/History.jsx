@@ -1,5 +1,3 @@
-import { useContext } from "react";
-import { ShopContext } from "../contexts/ShopContext";
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
@@ -9,9 +7,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Autoplay, Navigation } from "swiper/modules";
+import { useSelector } from "react-redux";
 
 const History = () => {
-    const { lastPurchased, favorites, lastVisited } = useContext(ShopContext);
+    const { lastPurchased, lastVisited } = useSelector(state => state.history);
+    const favorites = useSelector(state => state.filters.favorites)
 
     return (
         <Container maxWidth="md" sx={{ mt: 4 }}>

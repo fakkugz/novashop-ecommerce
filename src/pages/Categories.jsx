@@ -1,6 +1,4 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { ShopContext } from "../contexts/ShopContext";
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
@@ -10,9 +8,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation, Autoplay } from "swiper/modules";
+import { useSelector } from "react-redux";
 
 const Categories = () => {
-  const { categories, allProducts } = useContext(ShopContext);
+
+  const { categories, allProducts } = useSelector(state => state.products);
 
   const navigate = useNavigate();
 

@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -23,20 +23,23 @@ import Person from '@mui/icons-material/Person';
 
 import { Link, useNavigate } from 'react-router-dom';
 
-import { ShopContext } from '../contexts/ShopContext';
-import { AuthContext } from '../contexts/AuthContext';
-
 import NLogo from '../assets/NLogo.png';
+import { useSelector } from 'react-redux';
+import { logout } from '../features/authSlice';
+import { useDispatch } from 'react-redux';
 
 
 
 const NavBar = () => {
+
+  const dispatch = useDispatch();
+
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
 
-  const { cart } = useContext(ShopContext);
-  const { isAuthenticated, logout } = useContext(AuthContext);
+  const cart = useSelector(state => state.cart.cart);
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
   const pages = ['Home', 'Shop', 'Categories'];
   const settings = [
@@ -66,7 +69,7 @@ const NavBar = () => {
   };
 
   const handleLogout = () => {
-    logout();
+    dispatch(logout());
     setOpenDialog(false);
     navigate('/shop');
   };

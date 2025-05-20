@@ -8,15 +8,16 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Grid from '@mui/material/Grid';
-import { useContext, useState } from 'react';
-import { AuthContext } from "../contexts/AuthContext";
+import { useState } from 'react';
+import { setUser } from '../features/authSlice';
+import { useSelector } from 'react-redux';
 
 
 const Profile = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   
-  const { user, setUser } = useContext(AuthContext);
+  const user = useSelector(state => state.auth.user);
 
   const [errors, setErrors] = useState({});
 
@@ -165,7 +166,7 @@ const Profile = () => {
         </Grid>
       </Paper>
       <Dialog open={dialogOpen}>
-        <DialogTitle color='#FF5733' >Message</DialogTitle>
+        <DialogTitle color='#FF5733'>Message</DialogTitle>
         <DialogContent>
           <Typography>Data saved successfully</Typography>
         </DialogContent>

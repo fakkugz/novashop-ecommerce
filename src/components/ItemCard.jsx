@@ -19,10 +19,12 @@ import Favorite from '@mui/icons-material/Favorite';
 import ShoppingCart from '@mui/icons-material/ShoppingCart';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import { useContext, useState } from 'react';
-import { ShopContext } from '../contexts/ShopContext';
-import { AuthContext } from '../contexts/AuthContext';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { formatPrice } from '../utils/formatPrice';
+import { setFavorites } from '../features/filtersSlice';
+import { setCart, addToCart } from '../features/cartSlice';
 
 
 const ExpandMoreStyled = styled((props) => {
@@ -52,11 +54,15 @@ const ExpandMoreStyled = styled((props) => {
 export default function ItemCard({ id, title, price, description,
   category, image, rate, onAddToCartSuccess, sx = {} }) {
 
+  const dispatch = useDispatch();
+
   const [expanded, setExpanded] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
 
-  const { favorites, setFavorites, cart, setCart, addToCart, formatPrice } = useContext(ShopContext);
-  const { isAuthenticated } = useContext(AuthContext);
+  const favorites = useSelector(state => state.filters.favorites)
+  const cart = useSelector(state => state.cart.cart)
+
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -68,8 +74,8 @@ export default function ItemCard({ id, title, price, description,
   const toggleFavorite = () => {
     if (isAuthenticated) {
       isFavorite
-        ? setFavorites(favorites.filter(fav => fav.id !== id))
-        : setFavorites([...favorites, {
+        ? dispatch(setFavorites(favorites.filter(fav => fav.id !== id)))
+        : dispatch(setFavorites([...favorites, {
           id,
           title,
           price,
@@ -77,7 +83,7 @@ export default function ItemCard({ id, title, price, description,
           category,
           image,
           rating: { rate }
-        }]);
+        }]));
     } else {
       setOpenDialog(true);
     }
@@ -85,7 +91,7 @@ export default function ItemCard({ id, title, price, description,
 
   const handleAddToCart = () => {
     if (isInCart) {
-      setCart(cart.filter(prod => prod.id !== id));
+      dispatch(setCart(cart.filter(prod => prod.id !== id)));
     } else {
       const newProduct = {
         id,
@@ -96,7 +102,7 @@ export default function ItemCard({ id, title, price, description,
         image,
         rate,
       };
-      addToCart(newProduct);
+      dispatch(addToCart(newProduct));
       if (onAddToCartSuccess) {
         onAddToCartSuccess(newProduct);
       }
@@ -115,7 +121,7 @@ export default function ItemCard({ id, title, price, description,
         minHeight: { xs: 400, sm: 480, md: 520 },
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between', 
+        justifyContent: 'space-between',
         ...sx,
       }}
     >
@@ -153,7 +159,7 @@ export default function ItemCard({ id, title, price, description,
               WebkitBoxOrient: 'vertical',
               WebkitLineClamp: 2,
               maxWidth: '100%',
-              fontSize: {xs: '16px', sm: '20px'}
+              fontSize: { xs: '16px', sm: '20px' }
             },
             '& .MuiCardHeader-subheader': {
               display: '-webkit-box',
@@ -162,14 +168,14 @@ export default function ItemCard({ id, title, price, description,
               WebkitBoxOrient: 'vertical',
               WebkitLineClamp: 1,
               maxWidth: '100%',
-              fontSize: {xs: '11px', sm: '16px'}
+              fontSize: { xs: '11px', sm: '16px' }
             },
           }}
         />
 
-        <Box sx={{ m: {xs: 0, sm: 1} }}>
+        <Box sx={{ m: { xs: 0, sm: 1 } }}>
           <CardContent>
-            <Typography variant="h4" align="center" sx={{ fontSize: {xs: '25px', sm: '30px'} }}>
+            <Typography variant="h4" align="center" sx={{ fontSize: { xs: '25px', sm: '30px' } }}>
               {`$ ${formatPrice(price)}`}
             </Typography>
           </CardContent>
@@ -177,7 +183,7 @@ export default function ItemCard({ id, title, price, description,
       </Link>
 
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites" onClick={toggleFavorite} sx={{'&:focus': { outline: 'none'} }}>
+        <IconButton aria-label="add to favorites" onClick={toggleFavorite} sx={{ '&:focus': { outline: 'none' } }}>
           <Tooltip title="Add to Favorites" arrow>
             <Favorite sx={{ color: isFavorite ? 'secondary.main' : 'inherit' }} />
           </Tooltip>
@@ -206,7 +212,7 @@ export default function ItemCard({ id, title, price, description,
 
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+          <Typography variant="body2" sx={{ color: 'black' }}>
             {description}
           </Typography>
         </CardContent>

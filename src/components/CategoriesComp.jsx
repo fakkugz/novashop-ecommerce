@@ -4,11 +4,11 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useContext, useState, useEffect, useRef } from "react";
-import { ShopContext } from "../contexts/ShopContext";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import imgPlaceholder from '../assets/images/27002.webp';
+import { useSelector } from "react-redux";
 
 const FadeImage = ({ src }) => {
     const [prevSrc, setPrevSrc] = useState(src);
@@ -62,7 +62,10 @@ const FadeImage = ({ src }) => {
 
 
 const CategoriesComp = () => {
-    const { allProducts, categories } = useContext(ShopContext);
+
+    const allProducts = useSelector(state => state.products.allProducts);
+    const categories = useSelector(state => state.products.categories);
+
     const navigate = useNavigate();
     const [currentImages, setCurrentImages] = useState({});
     const categoryImages = useRef({});
@@ -124,7 +127,7 @@ const CategoriesComp = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    height: 300,
+                    height: 1110,
                     width: '100%',
                     flexDirection: 'column',
                     backgroundColor: 'transparent',
@@ -136,7 +139,7 @@ const CategoriesComp = () => {
     }
 
     return (
-        <Box className='divloco' sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: { xs: 0, md: 4 } }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: { xs: 0, md: 4 } }}>
             <Typography
                 variant="h4"
                 sx={{
