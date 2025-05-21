@@ -12,7 +12,7 @@ NovaShop es una aplicación web de comercio electrónico desarrollada con React.
 
 ---
 
-##🔀 Versiones disponibles
+## 🔀 Versiones disponibles
 Este repositorio contiene dos versiones distintas de la misma aplicación, cada una utilizando una tecnología distinta para la gestión de estado global:
 
 - main: implementación utilizando Context API.
