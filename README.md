@@ -1,4 +1,4 @@
-# 🛍️ NovaShop
+# 🛍️ NovaShop - E-commerce React App
 
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
@@ -9,6 +9,17 @@
 ---
 
 NovaShop es una aplicación web de comercio electrónico desarrollada con React. Ofrece una experiencia de compra completa con listado de productos, filtrado avanzado, sistema de carrito, productos favoritos, autenticación de usuarios e historial de compras. Está diseñada con Material UI y utiliza la [FakeStore API](https://fakestoreapi.com/) como fuente de datos.
+
+---
+
+##🔀 Versiones disponibles
+Este repositorio contiene dos versiones distintas de la misma aplicación, cada una utilizando una tecnología distinta para la gestión de estado global:
+
+- main: implementación utilizando Context API.
+
+- redux-version: implementación utilizando Redux Toolkit.
+
+Podés cambiar entre ramas para ver cómo se aplica cada enfoque en la organización y funcionamiento del estado.
 
 ---
 
@@ -28,7 +39,7 @@ NovaShop es una aplicación web de comercio electrónico desarrollada con React.
 
 - **React** – Librería principal de desarrollo  
 - **React Router** – Navegación entre páginas  
-- **Context API** – Gestión global del estado  
+- **Context API / Redux Toolkit** (según rama) – Gestión global del estado
 - **Material UI** – Componentes y estilos  
 - **FakeStore API** – Fuente de productos y usuarios simulados  
 
