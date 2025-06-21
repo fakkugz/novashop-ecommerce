@@ -1,23 +1,47 @@
-import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, createSelector, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { RootState } from '../store';
 
-export const fetchProducts = createAsyncThunk(
+export type Product = {
+  id: number,
+  title: string,
+  price: number,
+  description: string,
+  category: string,
+  image: string,
+  rating: {
+    rate: number,
+    count: number
+  }
+}
+
+interface DefaultState {
+  allProducts: Product[],
+  filteredProducts: Product[],
+  categories: string[],
+  currentPage: number,
+  productsPerPage: number,
+  loading: boolean,
+  error: null | string,
+}
+
+export const fetchProducts = createAsyncThunk<Product[]>(
   'products/fetchProducts',
   async () => {
-    const res = await axios.get('https://fakestoreapi.com/products');
+    const res = await axios.get<Product[]>('https://fakestoreapi.com/products');
     return res.data;
   }
 );
 
-export const fetchCategories = createAsyncThunk(
+export const fetchCategories = createAsyncThunk<string[]>(
   'products/fetchCategories',
   async () => {
-    const res = await axios.get('https://fakestoreapi.com/products/categories');
+    const res = await axios.get<string[]>('https://fakestoreapi.com/products/categories');
     return res.data;
   }
 );
 
-const initialState = {
+const initialState: DefaultState = {
   allProducts: [],
   filteredProducts: [],
   categories: [],
@@ -31,10 +55,10 @@ export const productsSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {
-    setFilteredProducts: (state, action) => {
+    setFilteredProducts: (state, action: PayloadAction<Product[]>) => {
       state.filteredProducts = action.payload;
     },
-    setCurrentPage: (state, action) => {
+    setCurrentPage: (state, action: PayloadAction<number>) => {
         state.currentPage = action.payload;
     }
   },
@@ -67,9 +91,9 @@ export const productsSlice = createSlice({
 
 export const { setFilteredProducts, setCurrentPage } = productsSlice.actions;
 
-export const selectFilteredProducts = state => state.products.filteredProducts;
-export const selectCurrentPage = state => state.products.currentPage;
-export const selectProductsPerPage = state => state.products.productsPerPage;
+export const selectFilteredProducts = (state: RootState) => state.products.filteredProducts;
+export const selectCurrentPage = (state: RootState) => state.products.currentPage;
+export const selectProductsPerPage = (state: RootState) => state.products.productsPerPage;
 
 export const selectCurrentProducts = createSelector(
   [selectFilteredProducts, selectCurrentPage, selectProductsPerPage],
@@ -80,7 +104,7 @@ export const selectCurrentProducts = createSelector(
   }
 );
 
-export const selectTotalPages = (state) => {
+export const selectTotalPages = (state: RootState) => {
   const { filteredProducts, productsPerPage } = state.products;
   return Math.ceil(filteredProducts.length / productsPerPage);
 };

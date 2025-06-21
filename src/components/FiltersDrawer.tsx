@@ -26,18 +26,18 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import { useLocation } from 'react-router-dom';
 import { setActiveFilters, setShowOnlyFavorites, setPriceFilter, setRateFilter, setMin, setMax, setRateRange } from '../features/filtersSlice';
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 
 
 const FiltersDrawer = () => {
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const [open, setOpen] = useState(false);
 
-    const categories = useSelector(state => state.products.categories);
+    const categories = useAppSelector(state => state.products.categories);
     const { activeFilters, priceFilter, rateFilter,
-        min, max, rateRange, showOnlyFavorites } = useSelector(state => state.filters);
+        min, max, rateRange, showOnlyFavorites } = useAppSelector(state => state.filters);
 
     const location = useLocation();
 
@@ -63,7 +63,7 @@ const FiltersDrawer = () => {
         setOpen(!open);
     };
 
-    const handleToggleCheck = (cat) => {
+    const handleToggleCheck = (cat: string) => {
         const updatedFilters = activeFilters.includes(cat) ? activeFilters.filter(c => c !== cat) : [...activeFilters, cat];
         dispatch(setActiveFilters((updatedFilters)));
     };
@@ -74,13 +74,20 @@ const FiltersDrawer = () => {
         dispatch(setPriceFilter({ min: minValue, max: maxValue }));
     };
 
-    const handleRateChange = (event, newValue) => {
-        dispatch(setRateRange(newValue));
-        dispatch(setRateFilter({
-            min: newValue[0],
-            max: newValue[1]
-        }));
+    const handleRateChange = (
+        _event: Event,
+        newValue: number | number[],
+        _activeThumb: number
+    ) => {
+        if (Array.isArray(newValue) && newValue.length === 2) {
+            dispatch(setRateRange([newValue[0], newValue[1]]));
+            dispatch(setRateFilter({
+                min: newValue[0],
+                max: newValue[1]
+            }));
+        }
     };
+
 
     const handleResetFilters = () => {
         dispatch(setMin(''));
@@ -320,10 +327,9 @@ const FiltersDrawer = () => {
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                 <Button
                     variant="outlined"
-                    color="white"
                     onClick={handleResetFilters}
                     sx={{
-                        mt: 3, mb: 3, width: '85%',
+                        color: 'white', borderColor: 'white', mt: 3, mb: 3, width: '85%',
                         '&:hover': {
                             borderColor: 'primary.main',
                         },

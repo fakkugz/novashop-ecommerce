@@ -11,11 +11,17 @@ import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 
 import { Link } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../hooks/hooks';
+import { Product } from "../features/productsSlice";
 
-const SimpleProductSlider = ({ products, categories }) => {
+type Props = {
+    products?: Product[],
+    categories?: string[]
+}
 
-    const allProducts = useSelector(state => state.products.allProducts);
+const SimpleProductSlider = ({ products, categories }: Props) => {
+
+    const allProducts = useAppSelector(state => state.products.allProducts);
 
     const filteredProducts = categories?.length
         ? allProducts.filter((product) => categories.includes(product.category))
@@ -60,7 +66,7 @@ const SimpleProductSlider = ({ products, categories }) => {
                 }}
                 className="product-slider"
             >
-                {filteredProducts.map((product) => (
+                {filteredProducts.map((product: Product) => (
                     <SwiperSlide key={product.id}>
                         <Link to={`/shop/products/${product.id}`} style={{ textDecoration: "none" }}>
                             <Card
@@ -85,7 +91,7 @@ const SimpleProductSlider = ({ products, categories }) => {
                                 <CardMedia
                                     component="img"
                                     image={product.image}
-                                    alt={product.name}
+                                    alt={product.title}
                                     loading="lazy"
                                     sx={{
                                         width: "100%",

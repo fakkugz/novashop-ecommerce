@@ -1,11 +1,24 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Product } from './productsSlice';
 
-const initialState = {
+type NumberRange = { min: number, max: number}
+
+interface DefaultStates {
+    activeFilters: string[],
+    favorites: Product[],
+    showOnlyFavorites: boolean,
+    priceFilter: NumberRange,
+    rateFilter: NumberRange,
+    min: string,
+    max: string,
+    rateRange: [number, number]
+}
+
+const initialState: DefaultStates = {
     activeFilters: [],
     favorites: (() => {
         try {
-            const savedFavorites = localStorage.getItem('favorites');
-            return savedFavorites ? JSON.parse(savedFavorites) : [];
+            return JSON.parse(localStorage.getItem("favorites") || '[]') as Product[];
         } catch (error) {
             console.error("Error parsing favorites from localStorage:", error);
             return [];
@@ -23,28 +36,28 @@ export const filterSlice = createSlice({
     name: 'filters',
     initialState,
     reducers: {
-        setActiveFilters: (state, action) => {
+        setActiveFilters: (state, action: PayloadAction<string[]>) => {
             state.activeFilters = action.payload;
         },
-        setFavorites: (state, action) => {
+        setFavorites: (state, action: PayloadAction<Product[]>) => {
             state.favorites = action.payload;
         },
-        setShowOnlyFavorites: (state, action) => {
+        setShowOnlyFavorites: (state, action: PayloadAction<boolean>) => {
             state.showOnlyFavorites = action.payload;
         },
-        setPriceFilter: (state, action) => {
+        setPriceFilter: (state, action: PayloadAction<NumberRange>) => {
             state.priceFilter = action.payload;
         },
-        setRateFilter: (state, action) => {
+        setRateFilter: (state, action: PayloadAction<NumberRange>) => {
             state.rateFilter = action.payload;
         },
-        setMin: (state, action) => {
+        setMin: (state, action: PayloadAction<string>) => {
             state.min = action.payload;
         },
-        setMax: (state, action) => {
+        setMax: (state, action: PayloadAction<string>) => {
             state.max = action.payload;
         },
-        setRateRange: (state, action) => {
+        setRateRange: (state, action: PayloadAction<[number, number]>) => {
             state.rateRange = action.payload;
         }
     }

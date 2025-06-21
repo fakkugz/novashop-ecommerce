@@ -1,8 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useAppSelector } from '../hooks/hooks';
 
-const ScrollToTopAndWait = ({ children }) => {
+interface Props {
+  children: React.ReactNode;
+}
+
+const ScrollToTopAndWait = ({ children }: Props) => {
   const location = useLocation();
+  const currentPage = useAppSelector(state => state.products.currentPage);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -17,7 +23,7 @@ const ScrollToTopAndWait = ({ children }) => {
     });
 
     return () => cancelAnimationFrame(raf);
-  }, [location.pathname]);
+  }, [location.pathname, currentPage]);
 
   return (
     <div

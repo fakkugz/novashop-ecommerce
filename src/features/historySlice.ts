@@ -1,9 +1,16 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { Product } from '../features/productsSlice';
+import { RootState, AppDispatch } from '../store';
 
-const initialState = {
+interface DefaultStates {
+    lastVisited: Product[],
+    lastPurchased: Product[]
+}
+
+const initialState: DefaultStates = {
     lastVisited: (() => {
         try {
-            return JSON.parse(localStorage.getItem("lastVisited")) || [];
+            return JSON.parse(localStorage.getItem("lastVisited") || '[]') as Product[];
          } catch (error) {
             console.error("Error parsing lastVisited from localStorage:", error);
             return [];
@@ -11,8 +18,7 @@ const initialState = {
     })(),
     lastPurchased: (() => {
         try {
-            const savedLastPurchased = localStorage.getItem("lastPurchased");
-            return savedLastPurchased ? JSON.parse(savedLastPurchased) : [];
+            return JSON.parse(localStorage.getItem("lastPurchased") || '[]') as Product[];
         } catch(error) {
             console.error("Error parsing lastPurchased from localStorage:", error);
             return [];
@@ -24,34 +30,33 @@ export const historySlice = createSlice({
     name: 'history',
     initialState,
     reducers: {
-        setLastVisited: (state, action) => {
+        setLastVisited: (state, action: PayloadAction<Product[]>) => {
             state.lastVisited = action.payload;
         },
-        setLastPurchased: (state, action) => {
+        setLastPurchased: (state, action: PayloadAction<Product[]>) => {
             state.lastPurchased = action.payload;
         },
     }
 })
 
-export const updateLastVisited = (product) => (dispatch, getState) => {
+export const updateLastVisited = (product: Product) => (dispatch: AppDispatch, getState: () => RootState) => {
   const { history } = getState();
-  const updatedList = [product, ...history.lastVisited.filter(p => p.id !== product.id)].slice(0, 10);
+  const updatedList = [product, ...history.lastVisited.filter((p: Product) => p.id !== product.id)].slice(0, 10);
 
   localStorage.setItem("lastVisited", JSON.stringify(updatedList));
   dispatch(setLastVisited(updatedList));
 };
 
-export const updateLastPurchased = () => (dispatch, getState) => {
+export const updateLastPurchased = () => (dispatch: AppDispatch, getState: () => RootState) => {
   const { cart, history } = getState();
-  const cartItems = cart.cart;
 
-  if (cartItems.length === 0) return;
+  if (cart.length === 0) return;
 
   const filteredPrev = history.lastPurchased.filter(
-    item => !cartItems.some(p => p.id === item.id)
+    item => !cart.some((p: Product) => p.id === item.id)
   );
 
-  const updatedList = [...cartItems, ...filteredPrev].slice(0, 10);
+  const updatedList = [...cart, ...filteredPrev].slice(0, 10);
 
   localStorage.setItem("lastPurchased", JSON.stringify(updatedList));
   dispatch(setLastPurchased(updatedList));

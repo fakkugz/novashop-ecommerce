@@ -8,15 +8,15 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation, Autoplay } from "swiper/modules";
-import { useSelector } from "react-redux";
+import { useAppSelector } from '../hooks/hooks';
 
 const Categories = () => {
 
-  const { categories, allProducts } = useSelector(state => state.products);
+  const { categories, allProducts } = useAppSelector(state => state.products);
 
   const navigate = useNavigate();
 
-  const handleCategoryClick = (category) => {
+  const handleCategoryClick = (category: string) => {
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.set("category", category);
     navigate(`/shop?${searchParams.toString()}`);
@@ -89,7 +89,6 @@ const Categories = () => {
                       <Box sx={{ transform: { xs: "scale(0.75)", md: "scale(0.8)" } }}>
                         <ItemCard
                           {...product}
-                          rate={product.rating?.rate}
                           sx={{ width: { xs: '180px', sm: '220px' } }}
                         />
                       </Box>

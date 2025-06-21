@@ -47,7 +47,7 @@ const Footer = () => {
             </Box>
 
             <Typography variant="body2" align="center" sx={{ mb: 2, opacity: '0.8' }}>
-                Copyrigth &copy; {new Date().getFullYear()} Mi Empresa. Todos los derechos reservados.
+                Copyright &copy; {new Date().getFullYear()} Mi Empresa. Ningún derecho reservado.
             </Typography>
             <Typography variant="body2" align="center" sx={{ fontSize: '0.75rem', pb: 0 }}>
                 Desarrollado por Facundo González

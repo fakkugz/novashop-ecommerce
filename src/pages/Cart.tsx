@@ -17,19 +17,19 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { removeFromCart, updateQuantity, clearCart } from '../features/cartSlice'
 import { formatPrice } from '../utils/formatPrice';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 
 export default function Cart() {
 
     const navigate = useNavigate();
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const cart = useSelector(state => state.cart.cart);
+    const cart = useAppSelector(state => state.cart);
 
-    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+    const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
     const [open, setOpen] = useState(false);
 
     const shippingPrice = 500;

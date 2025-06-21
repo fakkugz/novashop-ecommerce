@@ -14,15 +14,21 @@ import img1 from '../assets/images/1.webp';
 import img2 from '../assets/images/2.webp';
 import img3 from '../assets/images/3.webp';
 import img4 from '../assets/images/4.webp';
-import { useSelector } from "react-redux";
+import { useAppSelector } from '../hooks/hooks';
+import { Product } from "../features/productsSlice";
 
-const Home = () => {
+const Home: React.FC = () => {
 
-    const allProducts = useSelector(state => state.products.allProducts)
-    
+    const allProducts = useAppSelector(state => state.products.allProducts)
+
     const [showSwiper, setShowSwiper] = useState(false);
 
-    const slides = [
+    type Slide = {
+        img: string;
+        path: string;
+    };
+
+    const slides: Slide[] = [
         { img: img1, path: "/shop?category=electronics" },
         { img: img2, path: "/shop?category=women's clothing" },
         { img: img3, path: "/shop?category=jewelery" },

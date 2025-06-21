@@ -8,16 +8,16 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Grid from '@mui/material/Grid';
 import { Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
 import { updateLastPurchased } from "../features/historySlice";
 import { clearCart } from "../features/cartSlice";
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 
 const Checkout = () => {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const user = useSelector(state => state.auth.user);
-  const address = useSelector(state => state.auth.user.address)
+  const user = useAppSelector(state => state.auth.user);
+  const address = useAppSelector(state => state.auth.user.address)
   const [shippingAddress, setShippingAddress] = useState(address);
   const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
@@ -26,11 +26,11 @@ const Checkout = () => {
           window.scrollTo(0, 0);
         }, []);
 
-  const handleAddressChange = (event) => {
+  const handleAddressChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setShippingAddress(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     dispatch(updateLastPurchased());
     dispatch(clearCart());

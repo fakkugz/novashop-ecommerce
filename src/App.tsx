@@ -9,7 +9,7 @@ import NavBar from "./components/NavBar";
 import Home from "./pages/Home";
 import { Provider } from 'react-redux';
 import { store } from './store';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from './hooks/hooks';
 import { fetchProducts, fetchCategories } from './features/productsSlice';
 import GlobalStateSync from "./components/GlobalStateSync";
 
@@ -25,8 +25,8 @@ const Checkout = lazy(() => import('./pages/Checkout'));
 const Categories = lazy(() => import("./pages/Categories"));
 
 
-const DataLoader = () => {
-  const dispatch = useDispatch();
+const DataLoader: React.FC = () => {
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchProducts());

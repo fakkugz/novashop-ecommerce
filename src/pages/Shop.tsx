@@ -10,22 +10,23 @@ import Grid from '@mui/material/Grid';
 import ItemCard from "../components/ItemCard";
 import FiltersDrawer from "../components/FiltersDrawer";
 import AddedToCart from "../components/AddedToCart";
-import { useSelector, useDispatch } from 'react-redux';
 import { setFilteredProducts, setCurrentPage, selectCurrentProducts, selectTotalPages } from '../features/productsSlice';
 import { setLastAddedProduct, setAddToCartOpenModal } from "../features/uiSlice";
 import { applyFilters } from '../thunks/productThunk';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
+import { Product } from "../features/productsSlice";
 
 
 const Shop = () => {
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const { loading, allProducts, filteredProducts, currentPage, productsPerPage } = useSelector((state) => state.products);
+    const { loading, allProducts, filteredProducts, currentPage, productsPerPage } = useAppSelector(state => state.products);
 
-    const { favorites, showOnlyFavorites, activeFilters, priceFilter, rateFilter } = useSelector((state) => state.filters);
+    const { favorites, showOnlyFavorites, activeFilters, priceFilter, rateFilter } = useAppSelector(state => state.filters);
 
-    const currentProducts = useSelector(selectCurrentProducts);
-    const totalPages = useSelector(selectTotalPages);
+    const currentProducts = useAppSelector(selectCurrentProducts);
+    const totalPages = useAppSelector(selectTotalPages);
 
 
     useEffect(() => {
@@ -35,13 +36,11 @@ const Shop = () => {
     const [mobileOpen, setMobileOpen] = useState(false);
 
     useEffect(() => {
-        window.scrollTo(0, 0);
         dispatch(setCurrentPage(1));
     }, [dispatch]);
 
-    const handlePageChange = (event, value) => {
+    const handlePageChange = (_event: React.ChangeEvent<unknown>, value: number) => {
         dispatch(setCurrentPage(value));
-        window.scrollTo(0, 0);
     };
 
     useEffect(() => {
@@ -59,7 +58,7 @@ const Shop = () => {
         setMobileOpen(!mobileOpen);
     };
 
-    const handleAddToCartSuccess = (product) => {
+    const handleAddToCartSuccess = (product: Product) => {
         dispatch(setLastAddedProduct(product));
         dispatch(setAddToCartOpenModal(true));
     };
@@ -117,7 +116,7 @@ const Shop = () => {
                                 </Grid>
                             ))
                         ) : currentProducts.length > 0 ? (
-                            currentProducts.map((i) => (
+                            currentProducts.map((i: Product) => (
                                 <Grid size={{ xs: 6, sm: 4 }} key={i.id} sx={{
                                     opacity: 0,
                                     animation: 'fadeIn 0.3s ease forwards',
@@ -130,7 +129,7 @@ const Shop = () => {
                                         description={i.description}
                                         category={i.category}
                                         image={i.image}
-                                        rate={i.rating.rate}
+                                        rating={i.rating}
                                         onAddToCartSuccess={handleAddToCartSuccess}
                                     />
                                 </Grid>
@@ -196,9 +195,7 @@ const Shop = () => {
             >
                 <FiltersDrawer />
             </Drawer>
-            <AddedToCart
-                onClose={() => setAddToCartOpenModal(false)}
-            />
+            <AddedToCart />
         </Box>
     );
 };

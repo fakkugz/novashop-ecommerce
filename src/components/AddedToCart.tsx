@@ -6,15 +6,15 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 import { setAddToCartOpenModal } from '../features/uiSlice';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 
 
 const AddedToCart = () => {
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const { lastAddedProduct, addToCartOpenModal } = useSelector(state => state.ui);
+    const { lastAddedProduct, addToCartOpenModal } = useAppSelector(state => state.ui);
 
     const handleCloseModal = () => {
         dispatch(setAddToCartOpenModal(false))

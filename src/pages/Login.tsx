@@ -14,15 +14,15 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../features/authSlice';
-import { useSelector, useDispatch } from 'react-redux';
 import { setIsAuthenticated, setError } from '../features/authSlice';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 
 
 const Login = () => {
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const error = useSelector(state => state.auth.error);
+    const error = useAppSelector(state => state.auth.error);
     const [email, setEmail] = useState('johndoe123@novashop.com');
     const [password, setPassword] = useState('password123');
     const [showPassword, setShowPassword] = useState(false);
@@ -37,7 +37,7 @@ const Login = () => {
     }, []);
 
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const success = dispatch(login(email, password));
         if (success) {
@@ -45,12 +45,12 @@ const Login = () => {
         }
     };
 
-    const handleChangeEmail = (e) => {
+    const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
         if (error) dispatch(setError(false));
     };
 
-    const handleChangePassword = (e) => {
+    const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
         if (error) dispatch(setError(false));
     };

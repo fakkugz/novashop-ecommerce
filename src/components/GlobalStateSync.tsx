@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { setIsAuthenticated } from '../features/authSlice';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 
 export default function GlobalStateSync() {
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const cart = useSelector(state => state.cart.cart);
-    const favorites = useSelector(state => state.filters.favorites);
+    const cart = useAppSelector(state => state.cart);
+    const favorites = useAppSelector(state => state.filters.favorites);
 
     useEffect(() => {
         localStorage.setItem('cart', JSON.stringify(cart));

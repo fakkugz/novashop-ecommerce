@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, MouseEvent } from 'react';
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -24,22 +24,21 @@ import Person from '@mui/icons-material/Person';
 import { Link, useNavigate } from 'react-router-dom';
 
 import NLogo from '../assets/NLogo.png';
-import { useSelector } from 'react-redux';
 import { logout } from '../features/authSlice';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 
 
 
 const NavBar = () => {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [anchorElNav, setAnchorElNav] = useState<HTMLElement | null>(null);
+  const [anchorElUser, setAnchorElUser] = useState<HTMLElement | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
 
-  const cart = useSelector(state => state.cart.cart);
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const cart = useAppSelector(state => state.cart);
+  const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
 
   const pages = ['Home', 'Shop', 'Categories'];
   const settings = [
@@ -53,10 +52,10 @@ const NavBar = () => {
 
   const navigate = useNavigate();
 
-  const handleOpenNavMenu = (event) => {
+  const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
+  const handleOpenUserMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
 

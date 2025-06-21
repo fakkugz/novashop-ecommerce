@@ -1,6 +1,7 @@
 import { setFilteredProducts } from '../features/productsSlice';
+import { RootState, AppDispatch } from '../store';
 
-export const applyFilters = () => (dispatch, getState) => {
+export const applyFilters = () => (dispatch: AppDispatch, getState: () => RootState) => {
   const { products, filters } = getState();
   const { allProducts } = products;
   const {

@@ -8,9 +8,13 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import imgPlaceholder from '../assets/images/27002.webp';
-import { useSelector } from "react-redux";
+import { useAppSelector } from '../hooks/hooks';
 
-const FadeImage = ({ src }) => {
+type Props = {
+    src: string
+}
+
+const FadeImage = ({ src }: Props) => {
     const [prevSrc, setPrevSrc] = useState(src);
     const [showNew, setShowNew] = useState(false);
 
@@ -63,20 +67,21 @@ const FadeImage = ({ src }) => {
 
 const CategoriesComp = () => {
 
-    const allProducts = useSelector(state => state.products.allProducts);
-    const categories = useSelector(state => state.products.categories);
+    const allProducts = useAppSelector(state => state.products.allProducts);
+    const categories = useAppSelector(state => state.products.categories);
 
     const navigate = useNavigate();
-    const [currentImages, setCurrentImages] = useState({});
-    const categoryImages = useRef({});
-    const imageIndexes = useRef({});
+    const [currentImages, setCurrentImages] = useState<Record<string, string>>({});
+    const categoryImages = useRef<Record<string, string[]>>({});
+    const imageIndexes = useRef<Record<string, number>>({});
+
 
     useEffect(() => {
         if (allProducts.length === 0 || categories.length === 0) return;
 
-        const initialImages = {};
-        const imageMap = {};
-        const indexMap = {};
+        const initialImages: Record<string, string> = {};
+        const imageMap: Record<string, string[]> = {};
+        const indexMap: Record<string, number> = {};
 
         categories.forEach((category) => {
             const images = allProducts
@@ -98,7 +103,7 @@ const CategoriesComp = () => {
         if (categories.length === 0 || allProducts.length === 0) return;
 
         const interval = setInterval(() => {
-            const newImages = {};
+            const newImages: Record<string, string> = {};
 
             categories.forEach((category) => {
                 const images = categoryImages.current[category];
@@ -116,7 +121,7 @@ const CategoriesComp = () => {
         return () => clearInterval(interval);
     }, [categories, allProducts]);
 
-    const handleCategoryClick = (category) => {
+    const handleCategoryClick = (category: string) => {
         navigate(`/shop?category=${encodeURIComponent(category)}`);
     };
 

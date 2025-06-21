@@ -17,24 +17,25 @@ import ArrowBack from '@mui/icons-material/ArrowBack';
 import { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import AddedToCart from '../components/AddedToCart';
-import { useSelector, useDispatch } from 'react-redux';
 import { setFavorites } from '../features/filtersSlice';
 import { addToCart } from '../features/cartSlice';
 import { updateLastVisited } from '../features/historySlice';
 import { setLastAddedProduct, setAddToCartOpenModal } from "../features/uiSlice";
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
+import { Product } from '../features/productsSlice';
 
 
 const ProductDetails = () => {
 
     const navigate = useNavigate();
     const theme = useTheme();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const { id } = useParams();
 
-    const allProducts = useSelector(state => state.products.allProducts);
-    const favorites = useSelector(state => state.filters.favorites);
-    const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+    const allProducts = useAppSelector(state => state.products.allProducts);
+    const favorites = useAppSelector(state => state.filters.favorites);
+    const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
 
     const product = allProducts.find(product => product.id === Number(id));
 
@@ -47,7 +48,7 @@ const ProductDetails = () => {
         }
     }, [dispatch]);
 
-    const handleAddToCart = (product) => {
+    const handleAddToCart = (product: Product) => {
         dispatch(addToCart(product));
         dispatch(setLastAddedProduct(product));
         dispatch(setAddToCartOpenModal(true));
@@ -57,10 +58,12 @@ const ProductDetails = () => {
         setOpenDialog(false);
     };
 
-    const isFavorite = favorites.some(fav => fav.id === product.id);
+    const isFavorite = product ? favorites.some(fav => fav.id === product.id) : false;
 
     const toggleFavorite = () => {
         if (isAuthenticated) {
+            if (!product) return;
+
             dispatch(setFavorites(
                 isFavorite
                     ? favorites.filter(fav => fav.id !== Number(id))
@@ -238,9 +241,7 @@ const ProductDetails = () => {
                     BACK
                 </Typography>
             </Button>
-            <AddedToCart
-                onClose={() => dispatch(setAddToCartOpenModal(false))}
-            />
+            <AddedToCart />
             <Dialog open={openDialog}>
                 <DialogTitle>Login Required</DialogTitle>
                 <DialogContent>

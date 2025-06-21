@@ -21,13 +21,22 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 import { formatPrice } from '../utils/formatPrice';
 import { setFavorites } from '../features/filtersSlice';
 import { setCart, addToCart } from '../features/cartSlice';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
+import { Product } from '../features/productsSlice';
 
+type Props = Product & {
+  onAddToCartSuccess?: (product: Product) => void,
+  sx?: object
+};
 
-const ExpandMoreStyled = styled((props) => {
+type ExpandMoreProps = {
+  expand: boolean;
+};
+
+const ExpandMoreStyled = styled((props: ExpandMoreProps & React.ComponentProps<typeof IconButton>) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
 })(({ theme }) => ({
@@ -52,17 +61,18 @@ const ExpandMoreStyled = styled((props) => {
 }));
 
 export default function ItemCard({ id, title, price, description,
-  category, image, rate, onAddToCartSuccess, sx = {} }) {
+  category, image, rating, onAddToCartSuccess, sx = {} }: Props) {
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const { rate, count } = rating;
 
   const [expanded, setExpanded] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
 
-  const favorites = useSelector(state => state.filters.favorites)
-  const cart = useSelector(state => state.cart.cart)
+  const favorites = useAppSelector(state => state.filters.favorites)
+  const cart = useAppSelector(state => state.cart)
 
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
+  const isAuthenticated = useAppSelector(state => state.auth.isAuthenticated);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -82,7 +92,7 @@ export default function ItemCard({ id, title, price, description,
           description,
           category,
           image,
-          rating: { rate }
+          rating: { rate, count }
         }]));
     } else {
       setOpenDialog(true);
@@ -93,14 +103,14 @@ export default function ItemCard({ id, title, price, description,
     if (isInCart) {
       dispatch(setCart(cart.filter(prod => prod.id !== id)));
     } else {
-      const newProduct = {
+      const newProduct: Product = {
         id,
         title,
         price,
         description,
         category,
         image,
-        rate,
+        rating,
       };
       dispatch(addToCart(newProduct));
       if (onAddToCartSuccess) {
@@ -115,7 +125,7 @@ export default function ItemCard({ id, title, price, description,
 
   return (
     <Card
-      id={id}
+      id={String(id)}
       sx={{
         maxWidth: 284,
         minHeight: { xs: 400, sm: 480, md: 520 },

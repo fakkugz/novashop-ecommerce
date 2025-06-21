@@ -7,11 +7,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Autoplay, Navigation } from "swiper/modules";
-import { useSelector } from "react-redux";
+import { useAppSelector } from '../hooks/hooks';
+import { Product } from '../features/productsSlice';
 
 const History = () => {
-    const { lastPurchased, lastVisited } = useSelector(state => state.history);
-    const favorites = useSelector(state => state.filters.favorites)
+    const { lastPurchased, lastVisited } = useAppSelector(state => state.history);
+    const favorites = useAppSelector(state => state.filters.favorites)
 
     return (
         <Container maxWidth="md" sx={{ mt: 4 }}>
@@ -75,7 +76,6 @@ const History = () => {
                                                 <Box sx={{ transform: { xs: "scale(0.8)", md: "scale(0.85)" } }}>
                                                     <ItemCard
                                                         {...product}
-                                                        rate={product.rating?.rate}
                                                         sx={{
                                                             boxShadow: '3px 3px 3px rgba(0, 0, 0, 0.2)',
                                                             width: { xs: '170px', sm: '220px' }
