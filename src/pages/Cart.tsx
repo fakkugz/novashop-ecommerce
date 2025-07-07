@@ -196,14 +196,14 @@ export default function Cart() {
                                             </Button>
                                         </Box>
                                         <Typography variant="body2" sx={{ fontSize: '18px' }}>
-                                            $ {formatPrice(product.price * product.quantity)}
+                                            {formatPrice(product.price * product.quantity)}
                                         </Typography>
                                     </Box>
                                 </Box>
                             ))}
                             <Divider sx={{ mt: 2, bgcolor: 'grey.500' }} />
                             <Typography variant="h6" sx={{ textAlign: 'right', mt: 2 }}>
-                                Subtotal: ${calculateSubtotal()}
+                                Subtotal: {calculateSubtotal()}
                             </Typography>
                         </Box>
                     </Grid>
@@ -228,7 +228,7 @@ export default function Cart() {
                             <Divider sx={{ mb: 2, bgcolor: 'grey.500' }} />
                             <Typography variant="body1" sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <span>Products ({cart.reduce((total, item) => total + item.quantity, 0)})</span>
-                                <span>$ {calculateSubtotal()}</span>
+                                <span>{calculateSubtotal()}</span>
                             </Typography>
                             <Typography variant="body1" sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
                                 <span>Shipping</span>
@@ -238,7 +238,7 @@ export default function Cart() {
                             {cart.length === 0 ? null : (
                                 <Typography variant="h6" sx={{ display: 'flex', justifyContent: 'space-between' }}>
                                     <span>Total</span>
-                                    <span>$ {calculateTotal()}</span>
+                                    <span>{calculateTotal()}</span>
                                 </Typography>
                             )}
                         </CardContent>

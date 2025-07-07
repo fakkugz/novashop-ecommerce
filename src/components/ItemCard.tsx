@@ -186,7 +186,7 @@ export default function ItemCard({ id, title, price, description,
         <Box sx={{ m: { xs: 0, sm: 1 } }}>
           <CardContent>
             <Typography variant="h4" align="center" sx={{ fontSize: { xs: '25px', sm: '30px' } }}>
-              {`$ ${formatPrice(price)}`}
+              {formatPrice(price)}
             </Typography>
           </CardContent>
         </Box>
